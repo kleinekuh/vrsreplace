@@ -28,8 +28,47 @@ I am not responsible for any damages or a correct working.
 * ESP – ADC’s in combination with resistor based temperature sensors → See „Usage /Installation“
 * ESPAsyncWebServer → Replaced by PsychicHttp
 
+## Usage / Installation:
+1. Create the following folders on your SD-Card (FAT32):
+„/webserver“ (if you want to load html, js and css from SD-Card)
+„/log“
+„/sensordata“
 
+2. System operates with predefine LUT-Values. Everbody who allready tried calculating resistor values would known that ESP’s have some room for improvement. For that reason you should genrate your own LUT Value Table(s). You can use the solution from „e-thinkers“ (https://github.com/e-tinkers/esp32-adc-calibrate) or a more precisely solution from „Kveri“ (https://github.com/Kveri/esp32-adc-calibrate). The outputs must be converted to a row based „integer“ table. Eeach row representing the caculated int value. Make sure the ouput contains 
+4096 rows. If not, add a 0 as first line and no headers.
 
+3. Copy your generated lut file to your sd card inside the folder „/sensordata“. A single file for each pin is required. Naming convention „lut<PIN>.txt“. You can use my provided files „lut36.txt“, „lut39.txt“ and „lut34.txt“ but i believe an own generated file is more precise.
+
+4. Copy pregenerated sensorfiles vrs10.txt and vrs11.txt into the same „/sensordata“ folder.
+Remark:
+Both files are average values. This values had been measured on 8 different ESP’s with a physical resistance decade. Resistor values are based by the vendor documentation for my old VRS auroMATIC 560 (guide „Für den Betreiber/für den Fachhandwerker Bedienungs- und Installationsanleitung auroMATIC 560“ page 26).
+
+5. Copy the *.html, mainall.js.gz and main.css.gz files into folder „/webserver“. Only required if you want to serve these files from your SD-Card.
+
+Remark:
+The ESP’s webserver are not realy able dealing with a bunch of files. For that case i put all the relevant content like icons, external JS Libs and external defined CSS formatings into one single file and did a gzip compression afterwards. For perfomance reasons these content had been placed inside *.h files for direct delivering it without file reading. Keep in mind if you want to do any changes on the HTML-Side. ;-)
+
+6. Bring the bin(s) to your ESP or compile it by yourself.
+Homekit libraries already included. This means that the partition scheme has to be changed. For that case you need „minmal SPIFFS (1.9MB APP with OTA/190KB SPIFFS)“
+
+Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
+![Flashtool start dialog](/doc/readme_md_4.png)
+
+![Flashtool main dialog](/doc/readme_md_5.png)
+
+| Bin-File | Address |
+| :--- | :--- |
+| VRS-Replace.ino.bootloader.bin | 0x1000 |
+| VRS-Replace.ino.partitions.bin | 0x8000 |
+| VRS-Replace.ino.bin | 0x10000 |
+
+7. System should now started in AP Mode with the ssid VRS-Replace. Password „12345678“
+
+## Configuration / Adminsitration
+* Documentation „Configuration & Administration“
+* Documentation „REST“
+
+## Circuit / Layout
 ![circuit layout](/doc/readme_md_2.png)
 
 ## Used Parts
