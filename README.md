@@ -1,6 +1,8 @@
 # VRSReplace
 This „simple“ project (circuit & software) is a replacement for my old Vaillant VRS auroMATIC 560 thermal solar control.
 
+![main index html](/images/readme_md_1.png)
+
 ## !Warning / Diclaimer!
 The circuit makes use of high voltage (240V). If you are not firm what this mean, dont do that and ask somebody for help.
 
@@ -26,9 +28,6 @@ I am not responsible for any damages or a correct working.
 * ESP – ADC’s in combination with resistor based temperature sensors → See „Usage /Installation“
 * ESPAsyncWebServer → Replaced by PsychicHttp
 
-
-
-![main index html](/images/readme_md_1.png)
 
 
 ![circuit layout](/images/readme_md_2.png)
