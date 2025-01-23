@@ -32,6 +32,28 @@ I am not responsible for any damages or a correct working.
 
 ![circuit layout](/doc/readme_md_2.png)
 
+## Used Parts
+| Number | Part |
+| --- | :--- |
+| 1 | ESP32 DevKit C (see picture) |
+| 1 | SD Card Module |
+| 1 | 0,96‘‘ I2C Display (not required but nice) |
+| 2 | Relais Boards |
+| 2 | Screw Terminal (3 Connectors) |
+| 4 | Screw Terminal (2 Connectors) |
+| 1 | Varistor |
+| 1 | Themal Fuse 72°C |
+| 1 | Fuse Slow 250mA |
+| 1 | Fuse Holder |
+| 1 | 10uF capacitor |
+| 1 | 22uF capacitor |
+| 3 | 100nF capacitors |
+| 3 | 100uF capacitors |
+| 2 | 2,7KOhm resistors |
+| 1 | 10KOhm resistor |
+| 1 | HLK-PM01 AC DC 220V on board power supply |
+
+
 Layout of used ESP:
 ![layout used esp](/doc/readme_md_3.png)
 
