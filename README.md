@@ -96,6 +96,25 @@ Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
 Layout of used ESP:
 ![layout used esp](/doc/readme_md_3.png)
 
+## Future:
+- Ethernet Interface
+- Homekit integration
+- Multilanguage with different timezones (actually you have to change the HTML & JS Code)
+- User/Pass
+- HTTP/S
+- Dynamic timer programs
+	- Waterheating should be ready at HH:mm
+	- Based on weather forecast, „Legionella Program“ should start weekly at Day/Hour -> 60°C
+- Changing the whole development environment
+- I am not really happy with the WebFrontend. It works and the performance is Ok, but sometimes a more fancier FE would be nice.
+- Changing the js charts lib. Especially the line chart is not easy to handle.
+- Add validation rules on the input elements.
+- Support for circulation pump. Acutally there is no installed in our house.
+- Solar yield calculation
+- Adding a working mDNS solution. Until now add the given IP to your router.
+
+
+
 ## Additional Software
 VRS Replace uses the following OpenSource components:
 * HTMX
