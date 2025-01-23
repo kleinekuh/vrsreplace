@@ -44,7 +44,6 @@ Remark:
 Both files are average values. This values had been measured on 8 different ESP’s with a physical resistance decade. Resistor values are based by the vendor documentation for my old VRS auroMATIC 560 (guide „Für den Betreiber/für den Fachhandwerker Bedienungs- und Installationsanleitung auroMATIC 560“ page 26).
 
 5. Copy the *.html, mainall.js.gz and main.css.gz files into folder „/webserver“. Only required if you want to serve these files from your SD-Card.
-
 Remark:
 The ESP’s webserver are not realy able dealing with a bunch of files. For that case i put all the relevant content like icons, external JS Libs and external defined CSS formatings into one single file and did a gzip compression afterwards. For perfomance reasons these content had been placed inside *.h files for direct delivering it without file reading. Keep in mind if you want to do any changes on the HTML-Side. ;-)
 
@@ -52,6 +51,7 @@ The ESP’s webserver are not realy able dealing with a bunch of files. For that
 Homekit libraries already included. This means that the partition scheme has to be changed. For that case you need „minmal SPIFFS (1.9MB APP with OTA/190KB SPIFFS)“
 
 Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
+
 ![Flashtool start dialog](/doc/readme_md_4.png)
 
 ![Flashtool main dialog](/doc/readme_md_5.png)
