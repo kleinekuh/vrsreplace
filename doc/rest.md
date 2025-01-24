@@ -189,7 +189,7 @@ Returns the timer by providing a valid timer id. Return structure is similar to 
 | Input: | Type: | Timer Program (s): | Relais: |  |
 | :--- | :--- | :--- | :--- | :--- |
 | timer | JSON Document | All | All | |
-| ** Input JSON Document** |  |  |  |  | 
+| **Input JSON Document** |  |  |  |  | 
 | id | int | All | All | Unique id of the timer. -1 = Create new timer |
 | bez | string | All | All | Given Name of this timer |
 | gpiopin | int | All | All | ESP Pin used for relais |
