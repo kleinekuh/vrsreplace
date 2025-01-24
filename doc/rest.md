@@ -4,7 +4,9 @@ The frontend communicates directly with the backed API by calling any URL’s in
 
 My enviroment has an assigned IP 192.168.80.16
 
+```
 ### URL: http://IP/status
+```
 Delivers informations about the actual system state.
 
 | Input: | Type: |  |
