@@ -53,10 +53,7 @@ Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer pr
 | Parameters | availabel inside timerprogam | Description |
 | :--- | :--- | :--- |
 | Name: | All | Name of this timer |
-| Zeiten: | All | Selection for different timer program:
-- Täglich - Daily
-- Wochentags - Only at day selection
-- Manuell - Running at single click |
+| Zeiten: | All | Selection for different timer program: - Täglich - Daily - Wochentags - Only at day selection - Manuell - Running at single click |
 | MO, DI, MI, DO, FR, SA, SO | Wochentags | Timer should run at this weekday(s) |
 | Einschaltzeit: | Täglich / Wochentags | Timer should start at HH24:mm |
 | Ausschaltzeit: | Täglich / Wochentags | Timer should end at HH24:mm |
