@@ -27,14 +27,14 @@ After entering correct parameters, hit „Speichern“ and restart „Neustart�
 
 With correct connection credentials the system would now connect to your WiFi and you are able adding timer programs for solar and warm water heating. The IP depends on your WiFi DHCP setup. If display is used the assigned IP would be shown.
 
-![Config dialog](/doc/admin_md_2.png)
+![dialog main](/doc/admin_md_2.png)
 
 ## Timer for solarpump
 Hiting "+Solar" will opening a dialog for a new solar pump timer program:
 
-![Config dialog](/doc/admin_md_3.png)
+![dialog solarpump](/doc/admin_md_3.png)
 
-Parameters | Description |
+| Parameters | Description |
 | :--- | :--- |
 | Name: | Name of this timer |
 | Laufzeit (s): | Time in seconds how long the timer should run |
@@ -44,6 +44,27 @@ Parameters | Description |
 | Temperaturdifferenz (℃): | Temperature difference Kol1 ↔ „Temperatur Sensor“ for starting the solar pump. If temperature is lower then the given value and target is not reached, timer goes into wait mode. |
 | Temperatur Sensor: | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
 | Aktiv: | Timer program activ or not. |
+
+## Timer for warmwater heating
+Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer program:
+
+![dialog heating](/doc/admin_md_4.png)
+
+| Parameters | availabel inside timerprogam | Description |
+| :--- | :--- | :--- |
+| Name: | All | Name of this timer |
+| Zeiten: | All | Selection for different timer program:
+- Täglich - Daily
+- Wochentags - Only at day selection
+- Manuell - Running at single click |
+| MO, DI, MI, DO, FR, SA, SO | Wochentags | Timer should run at this weekday(s) |
+| Einschaltzeit: | Täglich / Wochentags | Timer should start at HH24:mm |
+| Ausschaltzeit: | Täglich / Wochentags | Timer should end at HH24:mm |
+| Auschalttemperatur (℃): | All | Target temperature before stopping the timer. Temperature is based on „Temperatur Sensor“ selection. |
+| Hysterese (℃): | Täglich / Wochentags | If temperature but end time had not been reached, timer goes into waiting and restarts if target temperature goes under this value. |
+| Temperatur Sensor: | All | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
+| Aktiv: | All | Timer program activ or not. |
+
 
 
 
