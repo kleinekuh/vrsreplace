@@ -66,7 +66,8 @@ Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
 
 ## Configuration / Adminsitration
 * Documentation „Configuration & Administration“
-* Documentation „REST“
+* [Documentation "REST"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/rest.md)
+
 
 ## Circuit / Layout
 ![circuit layout](/doc/readme_md_2.png)
