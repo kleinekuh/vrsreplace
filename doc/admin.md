@@ -22,3 +22,28 @@ This menu could also be reached hiting the button "Setup"
 | Lutpath: |  | Folder on SD-Card for the LUT predefined values |
 | CORS zulassen: | x | Allows CORS Headers. Important for own Webpage development. |
 | HTML von SD |  | If acivated the webserver delivers HTML’s, JS and CSS directly from SD-Card. This files have to be exist before. |
+
+After entering correct parameters, hit „Speichern“ and restart „Neustart“. If WiFi connection will not work, the system will coming back in AP-mode after (Verbindungsversuche * Wartezeit(ms)).
+
+With correct connection credentials the system would now connect to your WiFi and you are able adding timer programs for solar and warm water heating. The IP depends on your WiFi DHCP setup. If display is used the assigned IP would be shown.
+
+![Config dialog](/doc/admin_md_2.png)
+
+## Timer for solarpump
+Hiting "+Solar" will opening a dialog for a new solar pump timer program:
+
+![Config dialog](/doc/admin_md_3.png)
+
+Parameters | Description |
+| :--- | :--- |
+| Name: | Name of this timer |
+| Laufzeit (s): | Time in seconds how long the timer should run |
+| Wartezeit (s): | Time in seconds how long the timer should wait |
+| Einschalttemperatur (℃): | Which temperature (Kol1) should be reached, before activating this timer. |
+| Auschalttemperatur (℃): | Target temperature before stopping the timer. Temperature is based on „Temperatur Sensor“ selection. |
+| Temperaturdifferenz (℃): | Temperature difference Kol1 ↔ „Temperatur Sensor“ for starting the solar pump. If temperature is lower then the given value and target is not reached, timer goes into wait mode. |
+| Temperatur Sensor: | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
+| Aktiv: | Timer program activ or not. |
+
+
+
