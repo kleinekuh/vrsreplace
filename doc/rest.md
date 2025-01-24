@@ -21,3 +21,24 @@ Delivers informations about the actual system state.
 | heap | int | Size of current available heap memory (bytes) |
 
 
+## /log
+
+Delivers the last 10 system-logentries
+
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| NONE |  |  |
+| **Output:** | Array[10] |  |
+| id | int | Increasing INT-Value |
+| priocode | int | Priority of this entry |
+| date | int | Datestamp Format:yyyyMMdd |
+| time | int | Timestamp Format:H24mmss !Leading zero is termiated! |
+| code | int | Message Code → Struct LogStatusCode |
+| message | string | Asociated Message Example: code=201 / message=5|morgens Translated: Timer with id=5 and name=morgens had been stopped |
+
+
+
+
+
+
+
