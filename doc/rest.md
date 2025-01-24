@@ -2,7 +2,7 @@
 
 The frontend communicates directly with the backed API by calling any URL’s in combination with some parameters. Results are normally send back as JSON resultset.
 
-### URL: <IP>/status
+### URL: IP/status
 Delivers informations about the actual system state.
 
 | Input: | Type: |  |
