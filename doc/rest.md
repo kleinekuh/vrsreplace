@@ -6,6 +6,7 @@ The frontend communicates directly with the backed API by calling any URL’s in
 Delivers informations about the actual system state.
 
 | Input: | Type: |  |
+| :--- | :--- | :--- |
 | NONE |  |  |
 | Output: |  |  |
 | timestamp | string | Timestamp with the format dd.MM.yyyy HH24:mm:ss |
