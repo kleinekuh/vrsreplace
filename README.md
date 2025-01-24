@@ -97,6 +97,7 @@ Layout of used ESP:
 ![layout used esp](/doc/readme_md_3.png)
 
 Since November 2024 in use
+
 ![assembled circuit](/doc/readme_md_6.png)
 
 
