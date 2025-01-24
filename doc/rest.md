@@ -34,7 +34,22 @@ Delivers the last 10 system-logentries
 | date | int | Datestamp Format:yyyyMMdd |
 | time | int | Timestamp Format:H24mmss !Leading zero is termiated! |
 | code | int | Message Code → Struct LogStatusCode |
-| message | string | Asociated Message Example: code=201 / message=5|morgens Translated: Timer with id=5 and name=morgens had been stopped |
+| message | string | Asociated Message Example: code=201 / message=5!morgens Translated: Timer with id=5 and name=morgens had been stopped |
+
+
+## /downloadtemperaturelog
+
+Download logfile with temperature values. Logfile exists in two different formats (small and full).
+
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| logfile | int | Date for the logfile to download. Format: yyyyMMdd |
+| type | string | small / full |
+| **Output:** | Start HTTP Download |  |
+| NONE |  |  |
+
+
+
 
 
 
