@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
+		<link rel="stylesheet" href="main.css">
+  		<script src="mainall.js"></script>
+	</head>
+	<body>
+		<div hx-ext="ws" ws-connect="/ws"></div>
+		<div class="row">
+			<div class="leftcolumn">
+				<div class="block">
+					<div class="block_header">
+						<span>Schaltzeiten:</span>
+					</div>
+					<div 
+						style="display:block; overflow: auto;" 
+						hx-ext="relais-template" 
+						hx-trigger="load delay:500ms, refreshTimerlist, queue:all"
+						hx-get="/timerlist" 
+						hx-target="this" 
+						hx-swap="none" 
+						id="timerlist">
+   					</div>
+   					<div style="padding-top: 10px;">
+   						<button 
+   							class="button"
+   							hx-ext="relais-template" 
+   							hx-get="/timerlist" 
+   							hx-target="this" 
+   							hx-swap="none" 
+   							id="refreshTimerList">
+   							Aktualisieren
+   						</button>
+   						<button class="button" onclick='window.open("timerFormSolarPump.html", "_self");'>+ Solar</button>
+   						<button class="button" onclick='window.open("timerFormHeating.html", "_self");'>+ Warmwasser</button>
+   						<button class="button" onclick="deleteTimer();">Löschen</button>		
+   					</div>
+				</div>
+				<div class="block">
+					<div class="block_header">
+						<span>Protokoll (letzten 10):</span>
+					</div>
+					<div 
+						style="display: block;"
+						class="content-table"
+						hx-ext="log-template" 
+						hx-trigger="load delay:500ms, refreshLoglist, queue:all"  
+						hx-get="/log" 
+						hx-target="this" 
+						hx-swap="none" 
+						id="loglist">
+   					</div>
+   					<div style="padding-top: 10px;">
+   						<button 
+   							class="button"
+   							hx-ext="log-template" 
+   							hx-get="/log" 
+   							hx-target="this" 
+   							hx-swap="none" 
+   							id="refreshLogList">
+   							Aktualisieren
+   						</button>
+   					</div>
+				</div>				
+			</div>
+			<div class="rightcolumn">
+				<div class="block">
+    				<div 
+						hx-ext="status-template" 
+						hx-trigger="load,delay:100ms,refreshStatus,queue:all" 
+						hx-get="/status" 
+						hx-target="this" 
+						hx-swap="innerHTML" 
+						id="status">Status / Uhrzeit / letzte Aktualisierung
+					</div>
+					<div style="padding-top: 10px;">
+						<button class="button button_small" onclick='window.open("config.html", "_self");'>Setup</button>
+						<button class="button button_small" onclick='window.open("update.html", "_self");'>Update</button>
+					</div>
+				</div>
+   				<div class="block">
+    				<div>
+    					<div class="block_header">
+							<span>Aktuell:</span>
+						</div>
+						<div>
+	   						<div class="form">
+	   							<div class="block_header">
+	   								<span>KOL1:</span>
+	   							</div>
+	   							<div id="gkol1"  class="gauge-container gauge" style="width: 150px;"></div>	
+	   						</div>
+	   						<div class="form">
+	   							<div class="block_header">
+	   								<span>SP1:</span>
+	   							</div>
+	   							<div id="gsp1"  class="gauge-container gauge" style="width: 150px;"></div>	
+	   						</div>
+	   						<div class="form">
+	   							<div class="block_header">
+	   								<span>SP2:</span>
+	   							</div>
+	   							<div id="gsp2"  class="gauge-container gauge" style="width: 150px;"></div>	
+	   						</div>
+   						</div>
+   					</div>
+    			</div>
+    			<div class="block">
+    				<div>
+    					<div class="block_header">
+							<span>Tagesverlauf:</span>
+						</div>
+						<div 
+	    					hx-ext="chart-template" 
+							hx-trigger="load delay:500ms, refreshTemperature, queue:all"
+							hx-get="/temperature" 
+							hx-target="this" 
+							hx-swap="none"  
+    						id="lc"
+    						style="min-height: 300px;max-height: 300px;display: block;"
+    						>
+    					</div>
+    					
+   					</div>
+   				</div>
+   				
+    		</div>
+		</div>
+		
+		
+	<script>
+		document.body.addEventListener('htmx:configRequest', function(event) {
+    		event.detail.headers = '';
+    		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
+    		event.detail.headers['Referer'] = "no-referrer";
+    		htmx.config.withCredentials = false;
+    		htmx.config.selfRequestsOnly = false;
+		});
+		document.body.addEventListener('htmx:wsBeforeMessage', function(event) {
+			if(null==event) return;
+			var message = event.detail.message;
+			var data = JSON.parse(message);
+			if(data["refreshstatus"])htmx.trigger("#status", "refreshStatus");
+			if(data["refreshtimer"])htmx.trigger("#timerlist", "refreshTimerlist");
+			if(data["refreshlog"])htmx.trigger("#loglist", "refreshLoglist");
+			if(data["refreshtemperature"])htmx.trigger("#lc", "refreshTemperature");
+		});
+		
+		
+		function callback(divid, event, id, relais){
+			
+			if(event=='OPEN'){
+				if(relais==1)window.open("timerFormHeating.html?id="+id, "_self");
+				if(relais==2)window.open("timerFormSolarPump.html?id="+id, "_self");
+			}else if(event=='START'){
+				htmx.ajax('GET', '/timerstart?id='+id, {target:'#timerlist', swap:'none'});
+			} else if(event=='STOP'){
+				htmx.ajax('GET', '/timerstop?id='+id, {target:'#timerlist', swap:'none'});
+			}else{
+				var d = document.getElementById(id);
+				if(d.classList.contains('selected')){
+					d.classList.remove('selected');	
+				}else{
+					d.classList.add('selected');
+			 	}
+			}
+		}
+		
+		initLogTranslate();
+		addStatusTemplate();
+		const relaisList = new RelaisList("timerlist", callback );
+		addRelaisTemplate();
+		addLogTemplate();
+		
+		var lc = new LineChart("lc", "de-DE", null);
+		var gc = new GaugeCharts("gkol1", "gsp1", "gsp2");
+		
+		htmx.defineExtension('chart-template', {
+	 		transformResponse : function(text, xhr, elt) {
+				if(null!=text){
+					var data = JSON.parse(text);
+					lc.updateValues(data);
+					gc.updateValues(data);
+				}
+				return '';
+	  		}
+		});
+		
+		function deleteTimer(){
+			var ids = new Array();
+			document.querySelectorAll('.panel').forEach(function(elem) {
+				if(elem.classList.contains("selected")){
+					var id = elem.getAttribute("id");
+					if(null!=id) ids.push(parseInt(id));
+				}
+			});
+
+		
+			if(ids.length>0){
+				var toDelete =JSON.stringify(ids);
+				toDelete = "{'id':"+toDelete+"}";
+				htmx.ajax('GET', '/timerdelete?timers='+toDelete, {target:'#timerlist', swap:'none'});
+			}
+		}
+		
+		
+		
+	</script>
+	
+	
+	
+	</body>
+</html>

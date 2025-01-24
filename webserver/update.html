@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Update Firmware VRS-Replace</title>
+		<meta charset="UTF-8">
+  		<meta name="htmx-config" content='{"selfRequestsOnly" : false}'>
+  		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="main.css">
+  		<script src="mainall.js"></script>
+	</head>
+
+	<body>
+	
+		<div 
+			hx-ext="form-template" 
+			id="form"
+			class="center-screen"
+		>
+			<form id="dform" hx-encoding="multipart/form-data" hx-post="/update" hx-swap="none" > 
+				<div class="form updateform">
+					<div class="header">
+					 	<div class="timertext">Update Firmware</div>
+					</div>
+					<div>
+						<label for="version">Version (aktuell):</label>
+						<input type="text" id="version" name="version" disabled />
+					</div>
+
+					<input name="update" id="Upload" type="file" style="visibility: hidden;width:0%;" hidden />
+					<div>
+						<label for="Upload" class="uploadbutton" style="display: block;color:#ffffff">Auswahl</label>
+	 				</div>
+	 				<div>
+		 				<button class="button" id="submit" disabled>Upload</button>
+		 			</div>
+	 				<div>
+		 				<button type="button" class="button" onclick="handleBack();" >Zurück</button>
+		 			</div>
+				</div>
+			 </form>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		document.body.addEventListener('htmx:configRequest', function(event) {
+    		event.detail.headers = '';
+    		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
+    		event.detail.headers['Referer'] = "no-referrer";
+    		htmx.config.withCredentials = false;
+    		htmx.config.selfRequestsOnly = false;
+		});
+		document.body.addEventListener('htmx:sendError', function (evt) {
+		    modalBox.setModal(true, "System", "Update konnte nicht durchgeführt werden");
+			modalBox.showBox();
+		});
+		htmx.on('#dform', 'htmx:xhr:progress', function(evt) {
+			var progress = parseInt(evt.detail.loaded/evt.detail.total * 100);
+			if(progress<100) modalBox.setModal(false, "UPDATE", "Update", "Update Firmware: "+progress+"%");
+			else modalBox.setModal(false, "UPDATE", "Update", "System wird neugestartet");
+			modalBox.showBox();
+		});
+ 
+		const actualBtn = document.getElementById('Upload');
+		actualBtn.addEventListener('change', function(){
+			  document.getElementById("submit").disabled = false;
+		});
+		
+		initLogTranslate();
+		const modalBox = new ModalBox("modal");
+		htmx.ajax('GET', '/config', {target:'#form', swap:'none', handler:doForm});
+		
+		function doForm(target, data) {
+ 			var text = data.xhr.responseText;
+			if(null!=text){
+				var rc = JSON.parse(text);
+				document.getElementById("version").value = rc.version;
+			}else{
+				modalBox.setModal(true, "System", "Einstellungen konnten nicht geladen werden");
+				modalBox.showBox();
+			}
+  		};
+		
+  		
+  		function handleBack() {
+			event.preventDefault();
+			window.open("/", "_self");
+		}
+  		
+  		function handleReboot(){
+  			htmx.ajax('GET', '/system?reboot', {target:'#form', swap:'none'});
+			modalBox.setModal(false, "System", "System wird neugestartet");
+  			modalBox.showBox();
+  			window.open("/", "_self");
+  		}
+ 
+	</script>
+</html>

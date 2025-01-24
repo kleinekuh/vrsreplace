@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Config VRS-Replace</title>
+		<meta charset="UTF-8">
+  		<meta name="htmx-config" content='{"selfRequestsOnly" : false}'>
+  		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="main.css">
+  		<script src="mainall.js"></script>
+	</head>
+
+	<body>
+	
+		<div 
+			hx-ext="form-template" 
+			id="form"
+			class="center-screen"
+		>
+			<form id="dform" > 
+				<div class="form configform">
+					<div class="header">
+					 	<div class="timertext">Config</div>
+					</div>
+					<div class="row">
+						<div class="col2">
+							<label for="ssid">SSID:</label>
+							<input type="text" id="ssid" name="ssid" />
+			 			</div>
+						<div class="col2">
+							<label for="password">Passwort:</label>
+							<input type="password" id="password" name="password" />
+						</div>
+					</div>
+					 
+					<div class="row">					 
+						<div class="col1">
+							<label for="ntpserver">NTP Server:</label>
+							<input type="text" id="ntpserver" name="ntpserver" />
+						</div>
+
+					</div>
+					
+					<div class="row">
+						<div class="col2">
+							<label for="wificonnectionretries">Verbindungsversuche:</label>
+							<input type="text" id="wificonnectionretries" name="wificonnectionretries" />
+	 					</div>
+						<div class="col2">
+							<label for="wifireconnectinterval">Wartezeit(ms):</label>
+							<input type="text" id="wifireconnectinterval" name="wifireconnectinterval" />
+						</div>
+					</div>
+					<div class="row" style="border-bottom: 2px solid #408080; padding-top:5px">
+					</div>
+					<div class="row">
+						<div class="col2">
+							<label for="temperatureswt">Small log write(ms):</label>
+							<input type="text" id="temperatureswt" name="temperatureswt" />
+	 					</div>
+						<div class="col2">
+							<label for="temperaturelwt">Large log write(ms):</label>
+							<input type="text" id="temperaturelwt" name="temperaturelwt" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col2">
+							<label for="temperaturesrt">Sensors Refresh(ms):</label>
+							<input type="text" id="temperaturesrt" name="temperaturesrt" />
+						</div>
+						<div class="col2">
+							<label for="maxtemperature">Max Temperature(&#x2103;):</label>
+							<input type="text" id="maxtemperature" name="maxtemperature" />
+						</div>
+	 				</div>
+
+					
+					<div class="row">					 
+							<div class="col1">
+							<label for="logpath">Logpath:</label>
+							<input type="text" id="logpath" name="logpath" disabled="disabled" />
+						</div>
+					</div>
+					<div class="row">					 
+						<div class="col1">
+							<label for="webserverpath">Webserverpath:</label>
+							<input type="text" id="webserverpath" name="webserverpath" disabled="disabled"  />
+						</div>
+					</div>	
+					<div class="row">					 
+						<div class="col1">
+							<label for="lutpath">Lutpath:</label>
+							<input type="text" id="lutpath" name="lutpath" disabled="disabled"  />
+						</div>
+					</div>		
+					<div class="row">					 
+						<div class="col1">
+							<label for="allowcors" class="checkbox-label"><input type="checkbox" id="allowcors" name="allowcors">CORS zulassen</label>
+						</div>
+					</div>
+																	
+		 			<div class="row">					 
+						<div class="col1">
+							<button class="button" onclick="handleWrite();">Speichern</button>
+		 				</div>
+		 			
+		 				<div class="col1">
+		 					<button type="button" class="button" onclick="handleReboot();">Neustart</button>
+		 				</div>
+		 				<div class="col1">
+		 					<button type="button" class="button" onclick="handleBack();" >Zurück</button>
+		 				</div>
+		 			</div>
+				</div>
+			 </form>
+
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		document.body.addEventListener('htmx:configRequest', function(event) {
+    		event.detail.headers = '';
+    		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
+    		event.detail.headers['Referer'] = "no-referrer";
+    		htmx.config.withCredentials = false;
+    		htmx.config.selfRequestsOnly = false;
+		});
+		document.body.addEventListener('htmx:sendError', function (evt) {
+		    modalBox.setModal(true, "INIT", "System", "Einstellungen konnten nicht geladen werden");
+			modalBox.showBox();
+		});
+ 
+		function callback(event, type){
+			if(event == "CLOSE" && type == "RESTART"){
+				window.open("/", "_self");
+			}
+		}
+		
+		initLogTranslate();
+		const modalBox = new ModalBox("modal", callback);
+		const configForm = new ConfigForm("dform");
+		htmx.ajax('GET', '/config', {target:'#form', swap:'none', handler:doForm});
+		
+		function handleWrite(){
+			event.preventDefault();
+			var json = configForm.getJSON();
+			htmx.ajax('GET', '/changeconfig?config='+json, {target:'#form', swap:'none', handler:doSave});
+		}
+		
+		function doSave(target, data) {
+ 			var text = data.xhr.responseText;
+			if(null!=text){
+				var rc = JSON.parse(text);
+				var logmessage = getLogMessageByCode(rc.code);
+				if(rc.status==2){
+					modalBox.setModal(true, "SAVE", "System", logmessage.getMessage());
+				}else{
+					modalBox.setModal(false, "SAVE", "System", logmessage.getMessage());
+				}
+				modalBox.showBox();
+			}
+		}
+		
+		
+		function doForm(target, data) {
+ 			var text = data.xhr.responseText;
+ 			var rc = JSON.parse(text);
+			if(rc.status !=2 && null!=text){
+				configForm.setJSON(rc);
+				configForm.refreshForm();
+			}else{
+				modalBox.setModal(true, "INIT", "System", "Einstellungen konnten nicht geladen werden");
+				modalBox.showBox();
+			}
+  		};
+		
+  		
+  		function handleBack() {
+			event.preventDefault();
+			window.open("/", "_self");
+		}
+  		
+  		function handleReboot(){
+  			htmx.ajax('GET', '/system?reboot', {target:'#form', swap:'none'});
+			modalBox.setModal(false, "RESTART", "System", "System wird neugestartet");
+  			modalBox.showBox();
+  		}
+ 
+	</script>
+</html>

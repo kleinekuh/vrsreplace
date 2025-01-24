@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Steuerung Solarpumpe</title>
+		<meta charset="UTF-8">
+		<!-- <meta http-equiv="Content-Type" content="application/x-www-form-urlencoded; charset=UTF-8"> -->
+		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
+  		<meta name="htmx-config" content='{"selfRequestsOnly" : false}'>
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="main.css">
+  		<script src="mainall.js"></script>
+	</head>
+
+	<body>
+		<div 
+			hx-ext="form-template" 
+			id="form"
+			class="center-screen"
+		>
+			<form id="dform" > 
+				<div class="form spumpform">
+					<div class="header spumpform">
+						 <div class=" icon_pump icon"></div>
+					 	<div class="timertext">Solarpumpe</div>
+					</div>
+					<div>
+						<label for="bez">Name:</label>
+						<input type="text" id="bez" name="bez" />
+		 			</div>
+					
+					<div>
+						<label for="running_period">Laufzeit (s):</label>
+						<input type="text" id="running_period" name="running_period" />
+					</div>
+					<div>
+						<label for="waiting_period">Wartezeit (s):</label>
+						<input type="text" id="waiting_period" name="waiting_period" />
+					</div>
+	 				<div>
+						<label for="temperature_on">Einschalttemperatur (&#8451):</label>
+						<input type="text" id="temperature_on" name="temperature_on" />
+	 				</div>
+	 				<div>
+						<label for="temperature_off">Auschalttemperatur (&#8451):</label>
+						<input type="text" id="temperature_off" name="temperature_off" />
+	 				</div>
+	 				<div>
+						<label for="temperature_difference">Temperaturdifferenz (&#8451):</label>
+						<input type="text" id="temperature_difference" name="temperature_difference" />
+					</div>
+					<div>
+						<label for="tempsensor">Temperatur Sensor:</label>
+						<select  id="tempsensor" name="tempsensor">
+							<option value="1">SP1</option>
+							<option value="2">SP2</option>
+							<option value="3">Mittelwert</option>
+						</select>
+					</div>
+					<div style="display: flex;  flex-flow: column; ">
+				 		<div>
+							<label for="active" class="checkbox-label"><input type="checkbox" id="active" name="active">Aktiv</label>
+						</div>
+					</div>
+		 			<div>
+						<button class="button" onclick="handleWrite();">Speichern</button>
+		 			</div>
+		 			<div>
+		 				<button class="button" onclick="handleBack();">Zurück</button>
+		 			</div>
+				</div>
+			 </form>  
+		</div>
+	</body>
+	<script type="text/javascript">
+		document.body.addEventListener('htmx:configRequest', function(event) {
+    		event.detail.headers = '';
+    		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
+    		event.detail.headers['Referer'] = "no-referrer";
+    		htmx.config.withCredentials = false;
+    		htmx.config.selfRequestsOnly = false;
+		});
+		document.body.addEventListener('htmx:sendError', function (evt) {
+		    modalBox.setModal(true, "INIT", "Timer - Solarpumpe", "Timer konnte nicht geladen werden");
+			modalBox.showBox();
+		});
+		
+		function callback(event, type){
+		}
+
+		initLogTranslate();
+		var modalBox = new ModalBox("modal", callback);
+		var relaisForm = new RelaisForm("dform",2);
+		var id = GetURLParameter("id");
+		if(id!=null){
+			htmx.ajax('GET', '/timer?id='+id, {target:'#form', swap:'none', handler:doForm});
+		}else{
+			id=-1;
+		}
+		
+		function handleWrite(){
+			event.preventDefault();
+			var json = relaisForm.getJSON();
+			htmx.ajax('GET', '/timerchange?timer='+json, {target:'#form', swap:'none', handler:doSave});
+		}
+		
+		function doSave(target, data) {
+ 			var text = data.xhr.responseText;
+			if(null!=text){
+				var rc = JSON.parse(text);
+				if(rc.id!=-1){
+					var message = buildLogTextByCode(rc);
+					if(rc.status==2){
+						modalBox.setModal(true, "SAVE", "Timer - Solarpumpe", message);
+					}else{
+						modalBox.setModal(false, "SAVE", "Timer - Solarpumpe", message);
+					}
+					modalBox.showBox();
+					relaisForm.setId(rc.id);
+				}else{
+					modalBox.setModal(true, "SAVE", "Timer - Solarpumpe", "Timer konnte nicht gespeichert werden!");
+				}
+			}
+		}
+		
+		
+		function doForm(target, data) {
+ 			var text = data.xhr.responseText;
+ 			var rc = JSON.parse(text);
+ 			if(rc.status!=2 && null!=text){
+				relaisForm.setJSON(rc);
+				relaisForm.refreshForm();
+			}else{
+				var logmessage = getLogMessageByCode(rc.code);
+				modalBox.setModal(true, "INIT", "Timer - Solarpumpe", logmessage.getMessage());
+				modalBox.showBox();
+			}
+  		};
+		
+		function handleBack() {
+			event.preventDefault();
+			window.open("/", "_self");
+		}
+		
+	</script>
+</html>
