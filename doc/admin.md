@@ -53,7 +53,7 @@ Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer pr
 | Parameters | availabel inside timerprogam | Description |
 | :--- | :--- | :--- |
 | Name: | All | Name of this timer |
-| Zeiten: | All | Selection for different timer program: - Täglich - Daily - Wochentags - Only at day selection - Manuell - Running at single click |
+| Zeiten: | All | Selection for different timer program: - Täglich = Daily - Wochentags = Only at day selection - Manuell = Running at single click |
 | MO, DI, MI, DO, FR, SA, SO | Wochentags | Timer should run at this weekday(s) |
 | Einschaltzeit: | Täglich / Wochentags | Timer should start at HH24:mm |
 | Ausschaltzeit: | Täglich / Wochentags | Timer should end at HH24:mm |
@@ -61,6 +61,58 @@ Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer pr
 | Hysterese (℃): | Täglich / Wochentags | If temperature but end time had not been reached, timer goes into waiting and restarts if target temperature goes under this value. |
 | Temperatur Sensor: | All | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
 | Aktiv: | All | Timer program activ or not. |
+
+
+## Section "Schaltzeiten"
+Shows the created timer programs. If timer is running a red bar is shown inside the program. If bar becomes yellow timer is in waiting state.
+
+![dialog heating](/doc/admin_md_5.png)
+
+| Button(s) | Description |
+| :--- | :--- |
+| Aktualisieren | Refreshes the list of timer programs. |
+| + Solar | Adds a new program for the solar pump. |
+| + Warmwasser | Adds a new program for warm water heating. |
+| Löschen | Highlighted timer programs (single click / red frame) got deleted without any warning. |
+
+Doubleclick or long touch on single timer will opening program for changing.
+
+
+## Section "Protokoll (letzten 10):"
+Lists the last 10 protocol entries.
+
+![dialog heating](/doc/admin_md_6.png)
+
+| Button(s) | Description |
+| :--- | :--- |
+| Aktualisieren | Refreshes the log entries list. |
+
+
+## Section "Status"
+Shows actual informations about the system: Version, date time and the status of the SD-Card.
+
+![dialog heating](/doc/admin_md_7.png)
+
+| Button(s) | Description |
+| :--- | :--- |
+| Setup | Opens the configuration window. |
+| Update | Opens the page for updating the system. |
+
+
+## Section "Aktuell"
+Shows the current temperature for each sensor.
+
+![dialog heating](/doc/admin_md_8.png)
+
+## Section "Tagesverlauf"
+Shows temperature history for today and previous day. The red line symbolizes the actual hour. The greyed part shows temperature from previous day.
+
+![dialog heating](/doc/admin_md_9.png)
+
+
+
+
+
 
 
 
