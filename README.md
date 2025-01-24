@@ -3,7 +3,7 @@ This „simple“ project (circuit & software) is a replacement for my old Vaill
 
 ![main index html](/doc/readme_md_1.png)
 
-## !Warning / Diclaimer!
+## !Warning / Disclaimer!
 The circuit makes use of high voltage (240V). If you are not firm what this mean, dont do that and ask somebody for help.
 
 The whole system is designed running behind your own firewall. On January 2025 there is no security layer or any auth mechansimen implemented. Anybody with access to your network/system is able changing timerprograms or uploading new firmware.
