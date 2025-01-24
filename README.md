@@ -96,6 +96,10 @@ Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
 Layout of used ESP:
 ![layout used esp](/doc/readme_md_3.png)
 
+Since November 2024 in use
+![assembled circuit](/doc/readme_md_6.png)
+
+
 ## Future:
 - Ethernet Interface
 - Homekit integration
