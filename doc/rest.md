@@ -48,6 +48,28 @@ Download logfile with temperature values. Logfile exists in two different format
 | **Output:** | Start HTTP Download |  |
 | NONE |  |  |
 
+### CSV Document small
+| Column: | Type: |  |
+| :--- | :--- | :--- |
+| 1 | int | Temperature sensor / 0=Kol1; 1=Sp1; 2=Sp2 |
+| 2-25 | int | Max Temperatures full hour |
+| 26-49 | int | Min Temperatures full hour |
+
+### CSV Document full
+| Column: | Type: |  |
+| :--- | :--- | :--- |
+| 1 | int | Datestamp format yyyyMMdd |
+| 2 | string | Timestamp format: HH24mmss |
+| 3 | int | Id of active heattimer |
+| 4 | int | Id of active solartimer |
+| 5 | int | Id of active circulationtimer (Currently not used) |
+| 6 | string | Name of the Tempsensor (Kol1, Sp1, Sp2) |
+| 7 | int | Id of the Tempsensor |
+| 8 | double | Actual temperature |
+| 9 | double | Max temperature (per day) |
+| 10 | double | Min temperature (per day) |
+
+
 
 
 
