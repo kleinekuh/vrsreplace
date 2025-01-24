@@ -6,9 +6,7 @@ My enviroment has an assigned IP 192.168.80.16
 
 
 ## /status
-
 Delivers informations about the actual system state.
-
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | NONE |  |  |
@@ -22,9 +20,7 @@ Delivers informations about the actual system state.
 
 
 ## /log
-
 Delivers the last 10 system-logentries
-
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | NONE |  |  |
@@ -38,9 +34,7 @@ Delivers the last 10 system-logentries
 
 
 ## /downloadtemperaturelog
-
 Download logfile with temperature values. Logfile exists in two different formats (small and full).
-
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | logfile | int | Date for the logfile to download. Format: yyyyMMdd |
@@ -112,6 +106,82 @@ Returns the actual configuration values
 | deliverfromsd | bool | Load HTML’s, JS and CSS from SD-Card |
 
 
+## /system
+Allows some system change by adding one of the following parameter to the Url.
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| reboot | string | Reboots the system |
+| ntp | string | Recals the datetime from configured NTP-Server |
+| eraseconfig | string | Deletes the whole config and starts the system in AP-Mode |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+Example:
+```
+Url: 
+	http://<IP>/system?ntp → Recalls the datetime from configured NTP-Server.
+Return:
+	{"timestamp":"05.01.2025 16:43:37","id":-1,"status":1,"code":112}
+	Status: 1 = Ok
+	Code: 112 = System NTP-Time refreshed
+```
+
+## /changeconfig
+Changing the existing config parameters. Changing SSID and/or Password requires a reboot of the system. 
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| config | JSON document |  |
+| **Input JSON document** |  |
+| ssid | string | SSID of the used WiFi Network |
+| password | string | Password for the WiFi Network |
+| ntpserver | string | IP or Domain for the NTP-Server |
+| temperaturesrt | int | Time in ms for refreshing the tempsensors |
+| temperaturelwt | int | Time in ms for writing large temperature log (see /downloadtemperaturelog) |
+| temperatureswt | int | Time in ms for writing small temperature log (see /downloadtemperaturelog) |
+| wificonnectionretries | int | Number of connection retries before starting in AP-Mode |
+| wifireconnectinterval | int | Waittime in ms before trying next WiFi reconnect |
+| maxtemperature | int | Max Temperature of the solar storage unit |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+
+## /timer
+Returns the timer by providing a valid timer id. Return structure is similar to timerlist. If timer could not be found a status document would be send.
+| Input: | Type: | Timer Program (s): | Relais: |  |
+| :--- | :--- | :--- | :--- | :--- |
+| id | int | All | All | ID of the timer |
+| **Output:** | JSON Document |  |  |  | 
+| pos | string | All | All |  |
+| id | int | All | All | Unique id of the timer.  |
+| bez | string | All | All | Given Name of this timer |
+| gpiopin | int | All | All | ESP Pin used for relais |
+| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| time_on | int | 1,2 | 1 | Starttime format H24mmss |
+| time_off | int | 1,2 | 1 | Endtime format H24mmss |
+| weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
+| running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
+| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
+| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
+| hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
+| active | bool | All | All | Activated = True, Deactivated = False |
+| state | bool | All | All | Running state Running = true |
+| timerstatetype | int | All | All | Current Timerstate 1 = On, 2 = Off, 3 = Wait |
+| runnings | int | All | All | How often this timer had been running |
+| waitings | int | All | All | How often this timer are set to wait state |
+| laststartdate | int | All | All | Last startdate of this timer format: yyyyMMdd |
+| laststarttime | int | All | All | Last starttime of this timer format: H24mmss |
+| publishhomekit  | bool | 3 | 1 | Should this timer published to homekit (future) |
+| avgtempincreasepermin | int | 1,2,3 | 1,2 | Average temperature increasement per minute for this timer (future) |
 
 
 
