@@ -184,6 +184,128 @@ Returns the timer by providing a valid timer id. Return structure is similar to 
 | avgtempincreasepermin | int | 1,2,3 | 1,2 | Average temperature increasement per minute for this timer (future) |
 
 
+## /timerchange
+Returns the timer by providing a valid timer id. Return structure is similar to timerlist. If timer could not be found a status document would be send.
+| Input: | Type: | Timer Program (s): | Relais: |  |
+| :--- | :--- | :--- | :--- | :--- |
+| timer | JSON Document | All | All | |
+| ** Input JSON Document** |  |  |  |  | 
+| id | int | All | All | Unique id of the timer. -1 = Create new timer |
+| bez | string | All | All | Given Name of this timer |
+| gpiopin | int | All | All | ESP Pin used for relais |
+| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| time_on | int | 1,2 | 1 | Starttime format H24mmss |
+| time_off | int | 1,2 | 1 | Endtime format H24mmss |
+| weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
+| running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
+| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
+| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
+| hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
+| active | bool | All | All | Activated = True, Deactivated = False |
+| **Output:** | JSON Status |  |
+| timestamp | string | | | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | | | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | | | 1=Ok / 2=Error |
+| code | int | | | Statuscode see enum LogStatusCode |
+
+## /timerdelete
+Deletes exiting timer(s) by providing the
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| timers | JSON Array | JSON Array with timer id(s) to delete |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+
+## /timerdeleteall
+Deletes all existing timers. Before deletion all timers will be stopped and deactivated.
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| NONE |  |  |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+
+## /timerlist
+Returns a list with the existing timers.
+| Input: | Type: | Timer Program (s): | Relais: |  |
+| :--- | :--- | :--- | :--- | :--- |
+| NONE |  |  |  |  |
+| **Output:** | JSON Array |  |  |  | 
+| pos | string | All | All |  |
+| id | int | All | All | Unique id of the timer.  |
+| bez | string | All | All | Given Name of this timer |
+| gpiopin | int | All | All | ESP Pin used for relais |
+| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| time_on | int | 1,2 | 1 | Starttime format H24mmss |
+| time_off | int | 1,2 | 1 | Endtime format H24mmss |
+| weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
+| running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
+| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
+| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
+| hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
+| active | bool | All | All | Activated = True, Deactivated = False |
+| state | bool | All | All | Running state Running = true |
+| timerstatetype | int | All | All | Current Timerstate 1 = On, 2 = Off, 3 = Wait |
+| runnings | int | All | All | How often this timer had been running |
+| waitings | int | All | All | How often this timer are set to wait state |
+| laststartdate | int | All | All | Last startdate of this timer format: yyyyMMdd |
+| laststarttime | int | All | All | Last starttime of this timer format: H24mmss |
+| publishhomekit  | bool | 3 | 1 | Should this timer published to homekit (future) |
+| avgtempincreasepermin | int | 1,2,3 | 1,2 | Average temperature increasement per minute for this timer (future) |
+
+
+## /timerstart
+Starts the timer by providing the timer id.
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| id | int | Id of the timer to start |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+
+## /timerstop
+Stops the timer by providing the timer id.
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| id | int | Id of the timer to stop |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+
+
+## /testrelay
+Test relais by setting the relevant gpio high or low.
+| Input: | Type: |  |
+| :--- | :--- | :--- |
+| gpio | int | GPIO Pin for high/low activation. Current GPIO 16 = HEAT, GPIO 17 = SOLAR_PUMP |
+| onoff | int | On = 1 / Off = 0 |
+| **Output:** | JSON Status |  |
+| timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
+| id | int | Id of the timer. If function not relevant to timer, -1 is returned |
+| status | int | 1=Ok / 2=Error |
+| code | int | Statuscode see enum LogStatusCode |
+ 
+
 
 
 
