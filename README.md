@@ -65,7 +65,7 @@ Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
 7. System should now started in AP Mode with the ssid VRS-Replace. Password „12345678“
 
 ## Configuration / Adminsitration
-* Documentation „Configuration & Administration“
+* [Documentation "Configuration & Administration"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/admin.md)
 * [Documentation "REST"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/rest.md)
 
 
