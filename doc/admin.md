@@ -4,7 +4,7 @@ Without any configuration the system would start in AP-mode. Your WiFi-device (m
 
 ![Config dialog](/doc/admin_md_1.png)
 
-This menu could also be reached hiting the button "Setup"
+This menu could also be reached hitting the button "Setup"
 
 | Parameter | Change requires restart | Description |
 | :--- | :--- | :--- |
@@ -21,7 +21,7 @@ This menu could also be reached hiting the button "Setup"
 | Webserverpath: |  | Folder on SD-Card where the WebServer retrieves JS/CSS and HTML Files |
 | Lutpath: |  | Folder on SD-Card for the LUT predefined values |
 | CORS zulassen: | x | Allows CORS Headers. Important for own Webpage development. |
-| HTML von SD |  | If acivated the webserver delivers HTML’s, JS and CSS directly from SD-Card. This files have to be exist before. |
+| HTML von SD |  | If activated the webserver delivers HTML’s, JS and CSS directly from SD-Card. This files have to be exist before. |
 
 After entering correct parameters, hit „Speichern“ and restart „Neustart“. If WiFi connection will not work, the system will coming back in AP-mode after (Verbindungsversuche * Wartezeit(ms)).
 
@@ -30,7 +30,7 @@ With correct connection credentials the system would now connect to your WiFi an
 ![dialog main](/doc/admin_md_2.png)
 
 ## Timer for solarpump
-Hiting "+Solar" will opening a dialog for a new solar pump timer program:
+Hitting "+Solar" will opening a dialog for a new solar pump timer program:
 
 ![dialog solarpump](/doc/admin_md_3.png)
 
@@ -42,15 +42,15 @@ Hiting "+Solar" will opening a dialog for a new solar pump timer program:
 | Einschalttemperatur (℃): | Which temperature (Kol1) should be reached, before activating this timer. |
 | Auschalttemperatur (℃): | Target temperature before stopping the timer. Temperature is based on „Temperatur Sensor“ selection. |
 | Temperaturdifferenz (℃): | Temperature difference Kol1 ↔ „Temperatur Sensor“ for starting the solar pump. If temperature is lower then the given value and target is not reached, timer goes into wait mode. |
-| Temperatur Sensor: | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
-| Aktiv: | Timer program activ or not. |
+| Temperatur Sensor: | Relevant sensor for measuring target temperature Sp1, Sp2 or Mittelwert. |
+| Aktiv: | Timer program active or not. |
 
 ## Timer for warmwater heating
-Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer program:
+Hitting "+Warmwasser" will opening a dialog for a new warm water heating timer program:
 
 ![dialog heating](/doc/admin_md_4.png)
 
-| Parameters | availabel inside timerprogam | Description |
+| Parameters | available inside timerprogam | Description |
 | :--- | :--- | :--- |
 | Name: | All | Name of this timer |
 | Zeiten: | All | Selection for different timer program: - Täglich = Daily - Wochentags = Only at day selection - Manuell = Running at single click |
@@ -59,8 +59,8 @@ Hiting "+Warmwasser" will opening a dialog for a new warm water heating timer pr
 | Ausschaltzeit: | Täglich / Wochentags | Timer should end at HH24:mm |
 | Auschalttemperatur (℃): | All | Target temperature before stopping the timer. Temperature is based on „Temperatur Sensor“ selection. |
 | Hysterese (℃): | Täglich / Wochentags | If temperature but end time had not been reached, timer goes into waiting and restarts if target temperature goes under this value. |
-| Temperatur Sensor: | All | Relevant sensor for measruing target temperature Sp1, Sp2 or Mittelwert. |
-| Aktiv: | All | Timer program activ or not. |
+| Temperatur Sensor: | All | Relevant sensor for measuring target temperature Sp1, Sp2 or Mittelwert. |
+| Aktiv: | All | Timer program active or not. |
 
 
 ## Section "Schaltzeiten"
@@ -75,7 +75,7 @@ Shows the created timer programs. If timer is running a red bar is shown inside 
 | + Warmwasser | Adds a new program for warm water heating. |
 | Löschen | Highlighted timer programs (single click / red frame) got deleted without any warning. |
 
-Doubleclick or long touch on single timer will opening program for changing.
+Double click or long touch on single timer will opening program for changing.
 
 
 ## Section "Protokoll (letzten 10):"
@@ -89,7 +89,7 @@ Lists the last 10 protocol entries.
 
 
 ## Section "Status"
-Shows actual informations about the system: Version, date time and the status of the SD-Card.
+Shows actual information about the system: Version, date time and the status of the SD-Card.
 
 ![dialog heating](/doc/admin_md_7.png)
 
@@ -105,7 +105,7 @@ Shows the current temperature for each sensor.
 ![dialog heating](/doc/admin_md_8.png)
 
 ## Section "Tagesverlauf"
-Shows temperature history for today and previous day. The red line symbolizes the actual hour. The greyed part shows temperature from previous day.
+Shows temperature history for today and previous day. The red line symbolizes the actual hour. The grayed part shows temperature from previous day.
 
 ![dialog heating](/doc/admin_md_9.png)
 

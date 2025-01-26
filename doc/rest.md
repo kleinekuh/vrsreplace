@@ -2,11 +2,11 @@
 
 The frontend communicates directly with the backed API by calling any URL’s in combination with some parameters. Results are normally send back as JSON resultset.
 
-My enviroment has an assigned IP 192.168.80.16
+My environment has an assigned IP 192.168.80.16
 
 
 ## /status
-Delivers informations about the actual system state.
+Delivers information about the actual system state.
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | NONE |  |  |
@@ -28,9 +28,9 @@ Delivers the last 10 system-logentries
 | id | int | Increasing INT-Value |
 | priocode | int | Priority of this entry |
 | date | int | Datestamp Format:yyyyMMdd |
-| time | int | Timestamp Format:H24mmss !Leading zero is termiated! |
+| time | int | Timestamp Format:H24mmss !Leading zero is terminated! |
 | code | int | Message Code → Struct LogStatusCode |
-| message | string | Asociated Message Example: code=201 / message=5!morgens Translated: Timer with id=5 and name=morgens had been stopped |
+| message | string | Associated Message Example: code=201 / message=5!morgens Translated: Timer with id=5 and name=morgens had been stopped |
 
 
 ## /downloadtemperaturelog
@@ -90,7 +90,7 @@ Returns the actual configuration values
 | NONE |  |  |
 | **Output:** |  |  |
 | ssid | string | SSID of the used WiFi Network |
-| password | string | Allways *** |
+| password | string | Always *** |
 | ntpserver | string | IP or domain of the NTP-Server |
 | lutpath | string | Folder on SD-Card for the LUT predefined values |
 | logpath | string | Folder on SD-Card for the Log-Files |
@@ -107,11 +107,11 @@ Returns the actual configuration values
 
 
 ## /system
-Allows some system change by adding one of the following parameter to the Url.
+Allows some system change by adding one of the following parameter to the URL.
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | reboot | string | Reboots the system |
-| ntp | string | Recals the datetime from configured NTP-Server |
+| ntp | string | Recalls the datetime from configured NTP-Server |
 | eraseconfig | string | Deletes the whole config and starts the system in AP-Mode |
 | **Output:** | JSON Status |  |
 | timestamp | string | DateTimestamp format dd.MM.yyyy HH24:mm:ss |
@@ -121,7 +121,7 @@ Allows some system change by adding one of the following parameter to the Url.
 
 Example:
 ```
-Url: 
+URL: 
 	http://<IP>/system?ntp → Recalls the datetime from configured NTP-Server.
 Return:
 	{"timestamp":"05.01.2025 16:43:37","id":-1,"status":1,"code":112}
@@ -153,24 +153,24 @@ Changing the existing config parameters. Changing SSID and/or Password requires 
 
 ## /timer
 Returns the timer by providing a valid timer id. Return structure is similar to timerlist. If timer could not be found a status document would be send.
-| Input: | Type: | Timer Program (s): | Relais: |  |
+| Input: | Type: | Timer Program (s): | Relays: |  |
 | :--- | :--- | :--- | :--- | :--- |
 | id | int | All | All | ID of the timer |
 | **Output:** | JSON Document |  |  |  | 
 | pos | string | All | All |  |
 | id | int | All | All | Unique id of the timer.  |
 | bez | string | All | All | Given Name of this timer |
-| gpiopin | int | All | All | ESP Pin used for relais |
-| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| gpiopin | int | All | All | ESP Pin used for relays |
+| relais | int | All |  | Assigned relays to this timer 1=Heat, 2=Solar, 3=Circulation |
 | time_on | int | 1,2 | 1 | Starttime format H24mmss |
 | time_off | int | 1,2 | 1 | Endtime format H24mmss |
 | weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
 | running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
-| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switching to run (gpio=low) |
 | timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
-| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_on | int |  | 2 | Kol1 Temperature for starting this timer |
 | temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
-| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| tempsensor | int | All | All | Relevant sensor for measuring target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
 | temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
 | hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
 | active | bool | All | All | Activated = True, Deactivated = False |
@@ -186,23 +186,23 @@ Returns the timer by providing a valid timer id. Return structure is similar to 
 
 ## /timerchange
 Returns the timer by providing a valid timer id. Return structure is similar to timerlist. If timer could not be found a status document would be send.
-| Input: | Type: | Timer Program (s): | Relais: |  |
+| Input: | Type: | Timer Program (s): | Relays: |  |
 | :--- | :--- | :--- | :--- | :--- |
 | timer | JSON Document | All | All | |
 | **Input JSON Document** |  |  |  |  | 
 | id | int | All | All | Unique id of the timer. -1 = Create new timer |
 | bez | string | All | All | Given Name of this timer |
-| gpiopin | int | All | All | ESP Pin used for relais |
-| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| gpiopin | int | All | All | ESP Pin used for relays |
+| relais | int | All |  | Assigned relays to this timer 1=Heat, 2=Solar, 3=Circulation |
 | time_on | int | 1,2 | 1 | Starttime format H24mmss |
 | time_off | int | 1,2 | 1 | Endtime format H24mmss |
 | weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
 | running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
-| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switching to run (gpio=low) |
 | timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
-| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_on | int |  | 2 | Kol1 Temperature for starting this timer |
 | temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
-| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| tempsensor | int | All | All | Relevant sensor for measuring target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
 | temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
 | hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
 | active | bool | All | All | Activated = True, Deactivated = False |
@@ -238,24 +238,24 @@ Deletes all existing timers. Before deletion all timers will be stopped and deac
 
 ## /timerlist
 Returns a list with the existing timers.
-| Input: | Type: | Timer Program (s): | Relais: |  |
+| Input: | Type: | Timer Program (s): | Relays: |  |
 | :--- | :--- | :--- | :--- | :--- |
 | NONE |  |  |  |  |
 | **Output:** | JSON Array |  |  |  | 
 | pos | string | All | All |  |
 | id | int | All | All | Unique id of the timer.  |
 | bez | string | All | All | Given Name of this timer |
-| gpiopin | int | All | All | ESP Pin used for relais |
-| relais | int | All |  | Assigned relais to this timer 1=Heat, 2=Solar, 3=Circulation |
+| gpiopin | int | All | All | ESP Pin used for relays |
+| relais | int | All |  | Assigned relays to this timer 1=Heat, 2=Solar, 3=Circulation |
 | time_on | int | 1,2 | 1 | Starttime format H24mmss |
 | time_off | int | 1,2 | 1 | Endtime format H24mmss |
 | weekdays | int Array[7] | 2 | 1 | Weekdays when the timer should be active. |
 | running_period | int |  | 2 | Time in ms timer should run (gpio=high) |
-| waiting_period | int |  | 2 | Time in ms timer should wait before switiching to run (gpio=low) |
+| waiting_period | int |  | 2 | Time in ms timer should wait before switching to run (gpio=low) |
 | timer_program | int |  | 1 | Type of this Timer 1=Daily, 2=Weekdays, 3=Per request, 4=Dynamic |
-| temperature_on | int |  | 2 | Kol1 Temperature for strating this timer |
+| temperature_on | int |  | 2 | Kol1 Temperature for starting this timer |
 | temperature_off | int | 1,2,3 | 1,2 | Temperature for stopping this timer |
-| tempsensor | int | All | All | Relevant sensor for measruing target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
+| tempsensor | int | All | All | Relevant sensor for measuring target temperature None = 0, Sp1 = 1, Sp2 = 2, Avg_Sp1_Sp2 = 3, Kol1 = 4 |
 | temperature_difference | int |  | 2 | Temperature difference Kol1 ↔ tempsensor, for starting solar pump |
 | hysteresis | int | 1,2 | 1 | Temperature difference for running Heat-Timer before restarting warm water heating. |
 | active | bool | All | All | Activated = True, Deactivated = False |
@@ -294,7 +294,7 @@ Stops the timer by providing the timer id.
 
 
 ## /testrelay
-Test relais by setting the relevant gpio high or low.
+Test relays by setting the relevant gpio high or low.
 | Input: | Type: |  |
 | :--- | :--- | :--- |
 | gpio | int | GPIO Pin for high/low activation. Current GPIO 16 = HEAT, GPIO 17 = SOLAR_PUMP |
