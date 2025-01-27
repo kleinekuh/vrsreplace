@@ -448,5 +448,5 @@ void loop() {
   }
 
   if (runtime.systemState == RUNNING)checkWifi();
-  delay(100);
+  delay(1000);
 }
