@@ -1,5 +1,5 @@
 # VRS Replace
-This „simple“ project (circuit & software) is a replacement for my old Vaillant VRS auroMATIC 560 thermal solar control.
+This „simple“ project (circuit & software) is a replacement for my old Vaillant VRS auroMATIC 560 thermal solar control. Ohter VRS auroMATIC systems operating with VR10 / VR11 sensors, should also work. Furhter it's possible using the control for warm water heating only (C1/C2).
 
 ![main index html](/doc/readme_md_1.png)
 
@@ -104,6 +104,7 @@ Since November 2024 in use
 ## Future:
 - Ethernet Interface
 - Homekit integration
+- MQTT
 - Multilanguage with different timezones (actually you have to change the HTML & JS Code)
 - User/Pass
 - HTTP/S
