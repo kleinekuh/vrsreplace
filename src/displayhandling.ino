@@ -1,6 +1,28 @@
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
 
+/*
+Version 0.9.8
+*/
+
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 
 void u8g2_prepare() {
   u8g2.begin();
@@ -11,7 +33,7 @@ void u8g2_prepare() {
   u8g2.setFontPosTop();
   u8g2.setFontDirection(0);
 }
-
+ 
 void displayRunning(){
   u8g2.clearBuffer();
   setDisplayIP();
@@ -19,7 +41,7 @@ void displayRunning(){
   setDisplayTime();
   setDisplayActiveTimmer();
   u8g2.sendBuffer();
-}
+} 
 
 void displayBoot(String connectionInfo, int tries){
   u8g2.clearBuffer();
@@ -31,11 +53,10 @@ void displayBoot(String connectionInfo, int tries){
   u8g2.drawUTF8(0, 26, buffer);
   u8g2.sendBuffer();
 }
-
+ 
 void displayReboot(){
   u8g2.clearBuffer();
   u8g2.drawStr(0, 0, "Restart");
-  //u8g2.drawStr(0, 13, "neu gestartet!");
   u8g2.sendBuffer();
 }
 
@@ -49,7 +70,7 @@ void displayConfig(){
 void displayError(){
   u8g2.clearBuffer();
   setDisplayIP();
-  u8g2.drawStr(0, 13, "Allgemeiner Fehler");
+  u8g2.drawStr(0, 13, "Error");
   u8g2.sendBuffer();
 }
 
@@ -63,7 +84,6 @@ void setDisplayTime(){
 
 void setDisplayTemperature(){
   int tempKol1 = (int)(getTemperatureByTempmeasurementtype(KOL1) + 0.5);
-  //int tempKol1 = (int)(getAvgTemperatureByTempmeasurementtype(KOL1) + 0.5);
   int tempSp1 = (int)(getTemperatureByTempmeasurementtype(SP1) + 0.5);
   int tempSp2 = (int)(getTemperatureByTempmeasurementtype(SP2) + 0.5);
   char buffer[30];
@@ -100,9 +120,4 @@ void setDisplayActiveTimmer(){
 
   }
   if(heatActive || spumpActive) u8g2.drawStr(0, 52, timerText.c_str());
-
 }
-
-
-
-

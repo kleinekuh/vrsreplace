@@ -1,9 +1,33 @@
 
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
+
+/*
+Version 0.9.8
+*/
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
 
 #include <PsychicHttp.h>
+#include <TemplatePrinter.h>
 #include <Update.h>
 
 #include <U8g2lib.h>
@@ -13,23 +37,32 @@
 #include "SD.h"
 #include "SPI.h"
 #include "time.h"
-#include "HomeSpan.h" 
+#include "mqtt_client.h"
 
-#include "main_all_js_gz.h"
+
+#include "config_html_gz.h"
+#include "index_html_gz.h"
 #include "main_css_gz.h"
-#include "html_pages_gz.h"
+#include "mainall_js_gz.h"
+#include "timerformheating_html_gz.h"
+#include "timerformsolarpump_html_gz.h"
+#include "update_html_gz.h"
 
 
-#define VRS_VERSION "0.9.7"
+#define CONFIG_HTTPD_MAX_REQ_HDR_LEN 1024
+
+#define VRS_VERSION "0.9.8"
 #define CONVERSIONS_PER_PIN 100
 
 #define GPIO_HEAT 16
 #define GPIO_SOLAR_PUMP 17
+#define GPIO_CIRCULATION_PUMP 18
 
 #define SD_MOSI     23
 #define SD_MISO     19
 #define SD_SCLK     18
 #define SD_CS       5
+
 
 //#define DEBUGGING
 
@@ -51,18 +84,31 @@ enum SystemStateType{
   RUNNING,
   REBOOT,
   ERROR,
-  CONFIG
+  CONFIG,
+  MQTT_CHANGE
 };
 
+enum PP_HTTP_TYPE{
+  PP_GET,
+  PP_POST,
+  PP_GET_POST,
+  PP_UPLOAD
+};
 
-
+enum PP_PAGE_TYPE{
+  PP_JSON,
+  PP_HTML,
+  PP_HTML_GZ,
+  PP_JS_GZ,
+  PP_CSS_GZ
+};
 
 typedef struct{
   int temperatureSRT = 10000; // Refresh Time for TemperatureSensors
   int temperatureLWT = 10000; // Write Time for Temperature Log (large)
   int temperatureSWT = 60000; // Write Time for Temperature Log (small)
   int sensorAvgTemperatureCalcSize=10;
-  int maxtemperature = 75; 
+  int maxtemperature = 120; 
   char lutPath[25] = "/sensordata";
   char logPath[25] = "/log";
   char webServerPath[25] = "/webserver";
@@ -75,15 +121,19 @@ typedef struct{
   bool allowcors = false;
   char dnsname[25] = "vrsreplace";
   bool deliverfromsd = false;
+  bool mqttactive = false;
+  char mqttserver[50] = "";
+  unsigned long mqttsendinterval = 5000;
+  char language[3] = "en";
+  char timezone[50] = "4---CET-1CEST,M3.5.0,M10.5.0/3";
 } VRSReplaceConfig;
 VRSReplaceConfig config;
-
-
 
 typedef struct{
   uint32_t previousSRTMillis=0;
   uint32_t previousLWTMillis=0;
   uint32_t previousSWTMillis=0;
+  uint32_t previousMQTTMillis=0;
 
   volatile int nbTimers=0;
   volatile int lastLogId=0;
@@ -94,6 +144,8 @@ typedef struct{
   volatile bool adc_conversion_started = false;
   volatile bool adc_coversion_done = false;
   volatile bool lutloaded=false;
+  volatile bool mqttinited=false;
+  volatile bool mqttactive=false;
   uint8_t sdCardType;
   uint64_t sdTotalBytes;
   unsigned long wifipreviousMillis = 0;
@@ -102,7 +154,6 @@ typedef struct{
   IPAddress actIP;
 } VRSRunntime;
 VRSRunntime runtime;
-
 
 enum RCStatus{
   RC_OK = 1,
@@ -141,7 +192,11 @@ enum TimerStateType {
   WAIT = 3,
 };
 
+
 enum LogStatusCode{
+
+  NOCODE = 0,
+
   SETUP_START = 100,
   NEW_DAY = 101,
   SYSTEM_ERROR = 110,
@@ -156,6 +211,7 @@ enum LogStatusCode{
   SYSTEM_CONFIG_CHANGED = 117,
   SYSTEM_CONFIG_CHANGED_RESTART = 118,
   SYSTEM_CONFIG_ERASED = 119,
+  SYSTEM_CONFIG_NOT_SAVED = 120,
 
   NO_LUT_FILE = 121,
   NO_SDCARD = 122,
@@ -170,6 +226,8 @@ enum LogStatusCode{
 
   TIME_SET = 180,
   TIME_NOT_SET = 181,
+  TIME_SET_TIMEZONE = 182,
+
   TIMER_STARTED =	200,
   TIMER_STOPPED =	201,
   TIMER_WAIT = 202,
@@ -183,6 +241,7 @@ enum LogStatusCode{
   TIMER_HEAT_CHANGED = 210,
   TIMER_SPUMP_CHANGED = 211,
   TIMER_CPUMP_CHANGED = 212,
+  
   WS_START_TIMER_NO_ID =	300,
   WS_START_TIMER_ID_NOT_FOUND =	301,
   WS_START_TIMER_ID_STARTED =	302,
@@ -212,6 +271,12 @@ enum LogStatusCode{
   WS_CHANGE_SETUP_ERROR = 360,
   WS_CHANGE_SETUP_NO_CONFIG = 361,
 
+  MQTT_STARTED = 370,
+  MQTT_STOPPED = 371,
+  MQTT_ERROR = 372,
+  MQTT_INIT = 373,
+  MQTT_INIT_ERROR = 374
+
 };
 
 enum PrioCode{
@@ -220,6 +285,17 @@ enum PrioCode{
   PRIO_HIGH = 10,
   PRIO_LESS = 12,
   PRIO_LOW = 20,
+};
+
+enum MESSAGE_PUBLISH{
+    C_WS              = 1U << 0U,
+    C_MQTT            = 1U << 1U,
+    C_LOGFILE         = 1U << 2U,
+    C_HTTP            = 1U << 3U,
+    C_WS_STATUS       = 1U << 4U, 
+    C_WS_TIMER        = 1U << 5U, 
+    C_WS_LOG          = 1U << 6U, 
+    C_WS_TEMPERATURE  = 1U << 7U,
 };
 
 // Struct for Timers / Relais
@@ -313,12 +389,16 @@ const char* appassword = "12345678";
 RelaisTimer* timers;
 
 void setup() {
+
+  heap_caps_malloc_extmem_enable(512);
+
   Serial.begin(115200);
   setupSDCard();
 
+ 
   u8g2_prepare();
   displayBoot(config.ssid, 0);
-  
+
   readConfig();
   initSystemLog();
   
@@ -331,7 +411,7 @@ void setup() {
     delay(500);
     runtime.actIP = WiFi.softAPIP();
     DEBUG_F("\nStarting AP Mode: %s", runtime.actIP.toString(false).c_str());
-    writeLogStatus(String(config.logPath) + "/log.txt", SYSTEM_WIFI_AP_CONFIG , SYSTEM, runtime.actIP.toString(false).c_str());
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_OK, SYSTEM_WIFI_AP_CONFIG, runtime.actIP.toString(false).c_str());
     runtime.systemState = CONFIG;
   }else{
     int x=0;
@@ -355,7 +435,6 @@ void setup() {
       timeset = initTime();
       if(timeset)runtime.acthour = getHour();
       runtime.systemState = RUNNING;
-
     }
   }
 
@@ -365,9 +444,15 @@ void setup() {
     reloadTimers();
     initTemperatureSensors();
     initTempsensorLog();
-    writeLogStatus(String(config.logPath) + "/log.txt", SETUP_START, SYSTEM, runtime.actIP.toString().c_str());
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_OK, SETUP_START, runtime.actIP.toString(false).c_str());
+
     pinMode(GPIO_HEAT, OUTPUT);
-    pinMode(GPIO_SOLAR_PUMP, OUTPUT); 
+    pinMode(GPIO_SOLAR_PUMP, OUTPUT);
+    
+    if(config.mqttactive){
+      initMQTT();
+      startMQTT(); 
+    } 
   }
 
   runtime.previousSRTMillis = millis();
@@ -384,20 +469,20 @@ void loop() {
     
     case INIT: break;
     case FIRMWARE_CHANGE: 
-      //DEBUG_P("Firmware Change");
       if(runtime.adc_conversion_started){
         stopAllTimers();
         if(!deinitTemperatureSensors()){
-          writeLogStatus(String(config.logPath) + "/log.txt", SYSTEM_ADC_DEINIT_ERROR, SYSTEM, NULL);
+          publishLogMessage(C_LOGFILE, NULL, -1, RC_ERROR, SYSTEM_ADC_DEINIT_ERROR, NULL);
         }else{
-          writeLogStatus(String(config.logPath) + "/log.txt", SYSTEM_ADC_DEINIT_OK, SYSTEM, NULL);
+          publishLogMessage(C_LOGFILE, NULL, -1, RC_OK, SYSTEM_ADC_DEINIT_OK, NULL);
         }
       }
+      stopMQTT();
     break;
     case RUNNING:
       if(runtime.datestamp==0) runtime.datestamp = dateStamp();
       else if(runtime.datestamp != dateStamp()){
-        writeLogStatus(String(config.logPath) + "/log.txt", NEW_DAY, SYSTEM, NULL);
+        publishLogMessage(C_LOGFILE, NULL, -1, RC_OK, NEW_DAY, NULL);
         runtime.systemState = REBOOT;
         break;
       }
@@ -414,16 +499,29 @@ void loop() {
           runtime.previousLWTMillis = currentMillis;
         }
         if(currentMillis - runtime.previousSRTMillis >= config.temperatureSRT){
-          notifyWSClients(RC_OK, true, false, false, true);
+          publishLogMessage(C_WS | C_WS_STATUS | C_WS_TEMPERATURE , NULL, -1, RC_OK, NOCODE, NULL);
           runtime.previousSRTMillis = currentMillis;
         }
         if(currentMillis - runtime.previousSWTMillis >= config.temperatureSWT){
           writeHourlyTemperatureLog();
           runtime.previousSWTMillis = currentMillis;
         }
+        if(runtime.mqttactive && currentMillis - runtime.previousMQTTMillis >= config.mqttsendinterval){
+          sendMQTTMessages();
+          runtime.previousMQTTMillis = currentMillis;
+        }
         displayRunning();
       }
       
+    break;
+    case MQTT_CHANGE:
+      if(config.mqttactive){
+        startMQTT();
+      }else{
+        stopMQTT();
+      }
+      DEBUG_F("\nMQTT Change %d", config.mqttactive);
+      runtime.systemState = RUNNING;
     break;
     case REBOOT: 
       displayReboot();

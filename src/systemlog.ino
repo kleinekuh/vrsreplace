@@ -1,4 +1,27 @@
 
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
+
+/*
+Version 0.9.8
+*/
+
 unsigned long long szstatuslog = sizeof(StatusLog);
 
 
@@ -7,15 +30,14 @@ void initSystemLog(){
   runtime.lastLogId++;
 }
 
-void writeLogStatus(String fileName, LogStatusCode code, PrioCode priocode, const char* message){
+void writeLogStatus(LogStatusCode code, PrioCode priocode, const char* message){
   char datebuf[9];
   char timebuf[7];
 
   if(!checkSD()) return;
   getDateTime(datebuf, timebuf);
-  File file = SD.open(fileName, FILE_APPEND);
+  File file = SD.open( String(config.logPath) + "/log.txt", FILE_APPEND);
   if(!file){
-    DEBUG_F("LogFile not ready %s\n", fileName);
     return;
   }
 
@@ -118,5 +140,25 @@ int compareStatusLog( const void* a, const void* b){
    StatusLog log_a = * ( (StatusLog*) a );
    StatusLog log_b = * ( (StatusLog*) b );
    return (log_a.id > log_b.id) - (log_a.id < log_b.id);
+}
+
+esp_err_t publishLogMessage(unsigned logreceiver, PsychicRequest* request, int idtimer, RCStatus status, LogStatusCode code, const char* message){
+  
+  String temp = getJSONLogEntry(idtimer, status, code, message);
+  DEBUG_F("\npublishLogMessage %s", temp.c_str());
+  if(request!=NULL && (logreceiver & C_HTTP)){
+    if (status == RC_ERROR) streamResult(request, 404, "application/json", temp);
+    else streamResult(request, 202, "application/json", temp);
+  }
+  if(logreceiver & C_LOGFILE){
+    writeLogStatus(code, PRIO_HIGH, message);
+  }
+  if(logreceiver & C_WS){
+    notifyWSClients(status, logreceiver);
+  }
+  if(logreceiver & C_MQTT){
+    sendMQTTLastMessage(temp.c_str());
+  }
+  return ESP_OK;
 }
 

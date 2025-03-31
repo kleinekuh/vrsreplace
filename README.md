@@ -1,5 +1,5 @@
 # VRS Replace
-This „simple“ project (circuit & software) is a replacement for my old Vaillant VRS auroMATIC 560 thermal solar control. Ohter VRS auroMATIC systems operating with VR10 / VR11 sensors, should also work. Furhter it's possible using the control for warm water heating only (C1/C2).
+This „simple“ project (circuit & software) is a replacement for my old Vaillant VRS auroMATIC 560 thermal solar control. Other VRS auroMATIC systems operating with VR10 / VR11 sensors, should also work. Furhter it's possible using the control for warm water heating only (C1/C2).
 
 ![main index html](/doc/readme_md_1.png)
 
@@ -66,6 +66,8 @@ Installation with ESP32 FLASH DOWNLOAD TOOL (used version v3.9.8)
 ## Configuration / Administration
 * [Documentation "Configuration & Administration"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/admin.md)
 * [Documentation "REST"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/rest.md)
+* [Documentation "MQTT"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/mqtt.md)
+* [Documentation "Prometheus metrics"](https://github.com/kleinekuh/vrsreplace/blob/main/doc/metrics.md)
 
 
 ## Circuit / Layout
@@ -103,9 +105,9 @@ Since November 2024 in use
 
 ## Future:
 - Ethernet Interface
-- Homekit integration
-- MQTT
-- Multilanguage with different timezones (actually you have to change the HTML & JS Code)
+- ~~ Homekit integration ~~ Removed. Should be possible over MQTT solution like openhab, ...
+- ~~ MQTT ~~ Added 0.9.8
+- ~~ Multilanguage with different timezones (actually you have to change the HTML & JS Code) ~~ Added 0.9.8 en/de
 - User/Pass
 - HTTP/S
 - Dynamic timer programs
@@ -114,10 +116,24 @@ Since November 2024 in use
 - Changing the whole development environment
 - I am not really happy with the WebFrontend. It works and the performance is Ok, but sometimes a more fancier FE would be nice.
 - Changing the js charts lib. Especially the line chart is not easy to handle.
-- Add validation rules on the input elements.
+- ~~ Add validation rules on the input elements. ~~ Added 0.9.8
 - Support for circulation pump. Actually there is no installed in our house.
 - Solar yield calculation
 - Adding a working mDNS solution. Until now add the given IP to your router.
+
+
+## History:
+
+Actual version: 0.9.8
+
+- Support for MQTT
+- Reduced Heap memory usage
+- Different languages (en/de)
+- Added metrics endpoint for Prometheus Logging.
+- Different European Timezones
+
+Version: 0.9.7
+- Initial Version
 
 
 

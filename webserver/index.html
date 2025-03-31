@@ -8,17 +8,20 @@
   		<script src="mainall.js"></script>
 	</head>
 	<body>
+		<script type="text/javascript">
+		</script>
 		<div hx-ext="ws" ws-connect="/ws"></div>
+		 
 		<div class="row">
 			<div class="leftcolumn">
 				<div class="block">
 					<div class="block_header">
-						<span>Schaltzeiten:</span>
+						<span id="switchingtimes" lang>Schaltzeiten:</span>
 					</div>
 					<div 
 						style="display:block; overflow: auto;" 
 						hx-ext="relais-template" 
-						hx-trigger="load delay:500ms, refreshTimerlist, queue:all"
+						hx-trigger="load delay:500ms, refreshTimerlist, queue:all"  
 						hx-get="/timerlist" 
 						hx-target="this" 
 						hx-swap="none" 
@@ -31,17 +34,16 @@
    							hx-get="/timerlist" 
    							hx-target="this" 
    							hx-swap="none" 
-   							id="refreshTimerList">
-   							Aktualisieren
+   							id="refreshTimerList" lang>Aktualisieren
    						</button>
-   						<button class="button" onclick='window.open("timerFormSolarPump.html", "_self");'>+ Solar</button>
-   						<button class="button" onclick='window.open("timerFormHeating.html", "_self");'>+ Warmwasser</button>
-   						<button class="button" onclick="deleteTimer();">Löschen</button>		
+   						<button class="button" onclick='window.open("timerFormSolarPump.html", "_self");'>+&nbsp;Solar</button>
+   						<button class="button" onclick='window.open("timerFormHeating.html", "_self");' id="btnAddWarmWater" lang>+&nbsp;Warmwasser</button>
+   						<button class="button" onclick="deleteTimer();" id="btnDeleteTimer" lang>L&ouml;schen</button>		
    					</div>
 				</div>
 				<div class="block">
 					<div class="block_header">
-						<span>Protokoll (letzten 10):</span>
+						<span id="lastLog" lang>Protokoll (letzten 10):</span>
 					</div>
 					<div 
 						style="display: block;"
@@ -60,8 +62,7 @@
    							hx-get="/log" 
    							hx-target="this" 
    							hx-swap="none" 
-   							id="refreshLogList">
-   							Aktualisieren
+   							id="refreshLogList" lang>Aktualisieren
    						</button>
    					</div>
 				</div>				
@@ -70,7 +71,7 @@
 				<div class="block">
     				<div 
 						hx-ext="status-template" 
-						hx-trigger="load,delay:100ms,refreshStatus,queue:all" 
+						hx-trigger="load,delay:100ms,refreshStatus,queue:all"
 						hx-get="/status" 
 						hx-target="this" 
 						hx-swap="innerHTML" 
@@ -84,7 +85,7 @@
    				<div class="block">
     				<div>
     					<div class="block_header">
-							<span>Aktuell:</span>
+							<span id="currentTemperature" lang>Aktuell:</span>
 						</div>
 						<div>
 	   						<div class="form">
@@ -111,11 +112,11 @@
     			<div class="block">
     				<div>
     					<div class="block_header">
-							<span>Tagesverlauf:</span>
+							<span id="dailyChange" lang>Tagesverlauf:</span>
 						</div>
 						<div 
 	    					hx-ext="chart-template" 
-							hx-trigger="load delay:500ms, refreshTemperature, queue:all"
+							hx-trigger="load delay:500ms, refreshTemperature, queue:all" 
 							hx-get="/temperature" 
 							hx-target="this" 
 							hx-swap="none"  
@@ -123,15 +124,13 @@
     						style="min-height: 300px;max-height: 300px;display: block;"
     						>
     					</div>
-    					
    					</div>
    				</div>
-   				
     		</div>
 		</div>
-		
-		
 	<script>
+		var lang = GetURLParameter("lang");
+		lang = setLanguage(lang);
 		document.body.addEventListener('htmx:configRequest', function(event) {
     		event.detail.headers = '';
     		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
@@ -168,14 +167,15 @@
 			 	}
 			}
 		}
+
 		
-		initLogTranslate();
+		initLogTranslate(lang);
 		addStatusTemplate();
-		const relaisList = new RelaisList("timerlist", callback );
-		addRelaisTemplate();
+		const relaisList = new RelaisList("timerlist", callback, lang );
+		addRelaisTemplate(relaisList);
 		addLogTemplate();
 		
-		var lc = new LineChart("lc", "de-DE", null);
+		var lc = new LineChart("lc", "de-DE", lang, null);
 		var gc = new GaugeCharts("gkol1", "gsp1", "gsp2");
 		
 		htmx.defineExtension('chart-template', {
@@ -205,12 +205,6 @@
 				htmx.ajax('GET', '/timerdelete?timers='+toDelete, {target:'#timerlist', swap:'none'});
 			}
 		}
-		
-		
-		
 	</script>
-	
-	
-	
 	</body>
 </html>

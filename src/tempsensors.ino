@@ -1,4 +1,27 @@
 
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
+
+/*
+Version 0.9.8
+*/
+
 uint8_t vrprevalues_count;
 uint8_t tempsensors_count;
 uint8_t *adc_pins;
@@ -8,7 +31,6 @@ adc_continuous_data_t* result = NULL;
 void ARDUINO_ISR_ATTR adcComplete() {
   runtime.adc_coversion_done = true;
 }
-
 
 void initTemperatureSensors(){
   
@@ -20,10 +42,9 @@ void initTemperatureSensors(){
   temperaturesensors[1] = buildSensor(2, "Sp1", 39, VR10, SP1, String(config.lutPath) + "/lut39.txt");
   temperaturesensors[2] = buildSensor(3, "Sp2", 34, VR10, SP2, String(config.lutPath) + "/lut34.txt");
 
-
   tempsensors_count = sizeof(temperaturesensors)/sizeof(temperaturesensors[0]);
   adc_pins_count = tempsensors_count;
-  adc_pins = (uint8_t*)malloc(adc_pins_count * sizeof(uint8_t*));
+  adc_pins = (uint8_t*)malloc(adc_pins_count * sizeof(uint8_t));
   for(int i=0;i<adc_pins_count;i++) adc_pins[i] = temperaturesensors[i].gpiopin;
 
   analogContinuousSetWidth(12);
@@ -43,7 +64,6 @@ bool deinitTemperatureSensors(){
   return true;
 }
 
-
 TemperatureSensor buildSensor(int deviceId, String bez, int gpiopin, VRSensorType sensorType, TemperatureMeasurementType tempmeasurementtype, String lutName) {
   TemperatureSensor rc;
   rc.bez = bez;
@@ -57,7 +77,6 @@ TemperatureSensor buildSensor(int deviceId, String bez, int gpiopin, VRSensorTyp
   rc.counter=-1;
   rc.TaS = 0.0;
   readLutFileToIntArray(lutName.c_str(), rc.lut);
-
   pinMode(rc.gpiopin, INPUT);
 
   return rc;
@@ -75,7 +94,7 @@ VRPreValue initVRPreValue(VRSensorType sensorType, double TaMin, double TaMax, S
   readLutFileToIntArray(lutName.c_str(), temparray);
   
   vrprevalue.numberofvalues = vrprevalue.numberofvalues/2;
-  vrprevalue.values = (int**)malloc(vrprevalue.numberofvalues * sizeof(int*));
+  vrprevalue.values = (int**)malloc(vrprevalue.numberofvalues * sizeof(int));
   for (int i = 0; i < vrprevalue.numberofvalues; i++) vrprevalue.values[i] = (int*)malloc(2 * sizeof(int));
 
   int j=0;
@@ -116,7 +135,6 @@ double calcTempFromPreValues(int value, VRPreValue vrprevalue){
   return calcTemp;
 }
 
-
 void processTemperature(){
   if (analogContinuousRead(&result, 0)) {
       analogContinuousStop();
@@ -126,8 +144,6 @@ void processTemperature(){
       for (int i = 0; i < adc_pins_count; i++) {
         int adc = result[i].avg_read_raw;
         int pin = result[i].pin;
-
-        //DEBUG_F("\n adc=%d, pin=%d", adc, pin);
 
         int tempsensor_pos = getTemperaturSensorPosFromPin(pin);
         int vrdefvalue_pos = -1;
@@ -143,7 +159,6 @@ void processTemperature(){
           }else{
             calcTemperature(calcTemp, tempsensor_pos, hour, true);
           }
-
         }
       }
       runtime.acthour=hour;
@@ -160,11 +175,6 @@ void calcTemperature(double temperature, int pos, int hour, bool storeminmax){
     temperaturesensors[pos].counter=0;
     temperaturesensors[pos].TaMin = 130;
     temperaturesensors[pos].TaMax = -20;
-    
-    /*temperatureperhours[pos].TaMin[hour] = 130;
-    temperatureperhours[pos].TaMax[hour] = -20;
-    */
-
   }
 
   if(temperaturesensors[pos].counter>=config.sensorAvgTemperatureCalcSize){
@@ -183,7 +193,6 @@ void calcTemperature(double temperature, int pos, int hour, bool storeminmax){
       temperaturesensors[pos].TaMin=temperature;
       temperatureperhours[pos].TaMax[hour] = temperature;
       temperatureperhours[pos].TaMin[hour] = temperature;
-      //runtime.acthour=hour;
     }else{
       if(temperature > temperaturesensors[pos].TaMax)  temperaturesensors[pos].TaMax=temperature;
       if(temperature < temperaturesensors[pos].TaMin)  temperaturesensors[pos].TaMin=temperature;
@@ -208,7 +217,6 @@ int getVRPreValuesPosFromVRSensorType(VRSensorType sensorType){
   return -1;
 }
 
-
 double calcTemperatureByTempmeasurementtype(TemperatureMeasurementType tempmeasurementtype){
   double rc = 0;
   if(tempmeasurementtype==AVG_SP1_SP2){
@@ -221,7 +229,6 @@ double calcTemperatureByTempmeasurementtype(TemperatureMeasurementType tempmeasu
   return rc;
 }
 
-
 double getTemperatureByTempmeasurementtype(TemperatureMeasurementType tempmeasurementtype){
   double rc = 0;
   for(int i=0;i<tempsensors_count;i++){
@@ -233,7 +240,6 @@ double getTemperatureByTempmeasurementtype(TemperatureMeasurementType tempmeasur
   }
   return rc;
 }
-
 
 double getaAvgTemperatureByTempmeasurementtype(TemperatureMeasurementType tempmeasurementtype){
   double rc = 0;
@@ -251,6 +257,10 @@ bool isTemperatureReached(RelaisTimer relaistimer){
   double temperature=calcTemperatureByTempmeasurementtype(relaistimer.tempmeasurementtype);
   if(temperature > relaistimer.temperature_off) return true;
   return false;
+}
+
+int getNumberOfTempsensors(){
+  return tempsensors_count;
 }
 
 

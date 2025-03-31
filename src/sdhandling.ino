@@ -1,4 +1,26 @@
 
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
+
+/*
+Version 0.9.8
+*/
 
 void setupSDCard(){
   SPI.begin(SD_SCLK, SD_MISO, SD_MOSI, SD_CS);
@@ -31,7 +53,7 @@ int getNumberOfLutEntries(const char *path) {
   if(!runtime.sdready) return -1;
   File file = SD.open(path);
   if (!file || file.isDirectory()) {
-    writeLogStatus(String(config.logPath) + "/log.txt", NO_LUT_FILE, PRIO_HIGH, path);
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_ERROR, NO_LUT_FILE,  path);
     return -1;
   }
 
@@ -48,9 +70,10 @@ void readLutFileToIntArray(const char *path, int* iarray) {
   if(!runtime.sdready) return;
   File file = SD.open(path);
   if (!file || file.isDirectory()) {
-    writeLogStatus(String(config.logPath) + "/log.txt", NO_LUT_FILE, PRIO_HIGH, path);
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_ERROR, NO_LUT_FILE,  path);
     return;
   }
+  DEBUG_F("\nreadLutFileToIntArray %s", path);
 
   int i=0;
   while (file.available()) {
@@ -90,7 +113,7 @@ bool writeConfig(){
   File file = SD.open(configFile, FILE_WRITE);
   if(!file) return false;
   file.write((byte *)&config, sizeof(VRSReplaceConfig)); 
-  file.close(); 
+  file.close();
   return true;
 }  
 

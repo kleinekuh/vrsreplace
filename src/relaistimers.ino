@@ -1,6 +1,26 @@
 
+/**********************************************************************
+*	Copyright (C) 2025  Martin Lange
+*	This file is part of VRS Replace. OpenSource thermal solar control
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*	https://github.com/kleinekuh/vrsreplace
+**********************************************************************/
 
-
+/*
+Version 0.9.8
+*/
 
 RelaisTimer* backuptimers;
 void reloadTimers(){
@@ -17,11 +37,13 @@ void reloadTimers(){
     free(timers);
     timers = (RelaisTimer*)malloc(runtime.nbTimers * sizeof(RelaisTimer));
     readTimers();
+    if(config.mqttactive){
+      rebuildTimerTopics();
+    }
   } 
 }
 
 RelaisTimer initNewTimer(int gpiopin, RelaisType relaistype){
-  
   RelaisTimer timer;
   timer.id= lastTimerID()+1;
   memset(timer.bez, 0, sizeof(timer.bez));
@@ -57,7 +79,7 @@ RelaisTimer initNewTimer(int gpiopin, RelaisType relaistype){
   return timer;
 }
 
-int processHeatFromJson(StaticJsonDocument<500> doc){
+int processHeatFromJson(JsonDocument doc){
   RelaisTimer timer;
 
   int id=doc["id"];
@@ -106,27 +128,23 @@ int processHeatFromJson(StaticJsonDocument<500> doc){
   if(id==-1){
     writeTimers(timer);
     id=timer.id;
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMER_HEAT_ADDED, PRIO_HIGH, (String(id)+"|"+timer.bez).c_str());
+    publishLogMessage(C_LOGFILE | C_WS | C_MQTT | C_WS_STATUS | C_WS_TIMER | C_WS_LOG, NULL, id, RC_OK, TIMER_HEAT_ADDED, (String(id)+"|"+timer.bez).c_str());
   }else{
     timers[pos] = timer;
     writeTimers();
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMER_HEAT_CHANGED, PRIO_HIGH, (String(id)+"|"+timer.bez).c_str());
+    publishLogMessage(C_LOGFILE | C_WS | C_MQTT | C_WS_STATUS | C_WS_TIMER | C_WS_LOG, NULL, id, RC_OK, TIMER_HEAT_CHANGED, (String(id)+"|"+timer.bez).c_str());
   } 
-  notifyWSClients(RC_OK, true, true, true, false);
-
   return id;
 }
 
-int processSPumpFromJson(StaticJsonDocument<500> doc){
+int processSPumpFromJson(JsonDocument doc){
   RelaisTimer timer;
- 
   int id=doc["id"];
   int pos=-1;
   if(id!=-1){
     pos = getTimerPosFromId(id);
     if(pos==-1) id=-1;
   }
-  
   if(id==-1){
     timer = initNewTimer(GPIO_SOLAR_PUMP, doc["relais"]);
   }else{
@@ -143,17 +161,15 @@ int processSPumpFromJson(StaticJsonDocument<500> doc){
   timer.temperature_difference=doc["temperature_difference"];
   timer.tempmeasurementtype=doc["tempsensor"];
   timer.active = doc["active"];
-
   if(id==-1){
     writeTimers(timer);
     id=timer.id;
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMER_SPUMP_ADDED, PRIO_HIGH, (String(id)+"|"+timer.bez).c_str());
+    publishLogMessage(C_LOGFILE | C_WS | C_MQTT | C_WS_STATUS | C_WS_TIMER | C_WS_LOG, NULL, id, RC_OK, TIMER_SPUMP_ADDED, (String(id)+"|"+timer.bez).c_str());
   }else{
     timers[pos] = timer;
     writeTimers();
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMER_SPUMP_CHANGED, PRIO_HIGH, (String(id)+"|"+timer.bez).c_str());
+    publishLogMessage(C_LOGFILE | C_WS | C_MQTT | C_WS_STATUS | C_WS_TIMER | C_WS_LOG, NULL, id, RC_OK, TIMER_SPUMP_CHANGED, (String(id)+"|"+timer.bez).c_str());
   }
-  notifyWSClients(RC_OK, true, true, true, false); 
   return id;
 }
 
@@ -208,9 +224,15 @@ int getActiveTimerByRelaisType(RelaisType relaistype){
     }
   }
   return -1;
-
 }
 
+int getNumberOfActiveTimers(){
+  int rc=0;
+  for(int i=0;i<runtime.nbTimers;i++){
+    if(isRelaisTimerActive(timers[i].id)) rc++;
+  }
+  return rc;
+}
 
 bool isRelaisTimerActive(int id){
   int i = getTimerPosFromId(id);
@@ -226,9 +248,9 @@ bool hasActiveRelaisType(RelaisType relaisType){
   return false;
 }
 
-void startRelaisTimer(int id){
+bool startRelaisTimer(int id){
   int i = getTimerPosFromId(id);
-  if(i==-1) return;
+  if(i==-1) return false;
   if(!hasActiveRelaisType(timers[i].relaistype) && timers[i].timerstatetype == OFF && timers[i].active && !isTemperatureReached(timers[i])){
     timers[i].timerstatetype = ON;
     timers[i].runnings++;
@@ -240,30 +262,28 @@ void startRelaisTimer(int id){
     timers[i].nextstoptime = timeStamp(timers[i].running_period/1000);
     if(!digitalRead(timers[i].gpiopin)){
       digitalWrite(timers[i].gpiopin, HIGH);
-      writeLogStatus(String(config.logPath) + "/log.txt", TIMER_STARTED, PRIO_LESS, (String(id)+"|"+timers[i].bez).c_str());
+      writeTimers();
+      publishLogMessage(C_LOGFILE | C_MQTT | C_WS | C_WS_STATUS | C_WS_TIMER | C_WS_LOG | C_WS_TEMPERATURE, NULL, id, RC_OK, TIMER_STARTED, (String(id)+"|"+timers[i].bez).c_str());
     }
-    writeTimers();
-    notifyWSClients(RC_OK, true, true, true, true);
+    return true;
   } 
-  return;
+  return false;
 }
 
-void stopRelaisTimer(int id){
+bool stopRelaisTimer(int id){
   int i = getTimerPosFromId(id);
-  if(i==-1 || !isRelaisTimerActive(id)) return;
+  if(i==-1 || !isRelaisTimerActive(id)) return false;
 
   timers[i].timerstatetype = OFF;
   timers[i].datestamp = dateStamp();
   timers[i].timestamp = timeStamp();
-  //timers[i].runtime = (timers[i].runtime + ( timers[i].timestamp - timers[i].laststarttime));
 
   if(digitalRead(timers[i].gpiopin)){
     digitalWrite(timers[i].gpiopin, LOW);
   }
-  writeLogStatus(String(config.logPath) + "/log.txt", TIMER_STOPPED, PRIO_LESS, (String(id)+"|"+timers[i].bez).c_str());
   writeTimers();
-  notifyWSClients(RC_OK, true, true, true, true);
-  return;
+  publishLogMessage(C_LOGFILE | C_MQTT | C_WS | C_WS_STATUS | C_WS_TIMER | C_WS_LOG | C_WS_TEMPERATURE, NULL, id, RC_OK, TIMER_STOPPED, (String(id)+"|"+timers[i].bez).c_str());
+  return true;
 }
 
 void waitRelaisTimer(int id){
@@ -275,13 +295,12 @@ void waitRelaisTimer(int id){
   timers[i].timestamp = timeStamp();
 
   timers[i].nextstarttemp = (timers[i].temperature_off -timers[i].hysteresis);
-  //timers[i].runtime = (timers[i].runtime + ( timers[i].timestamp - timers[i].laststarttime));
   timers[i].nextstarttime = timeStamp(timers[i].waiting_period/1000);
 
   if(digitalRead(timers[i].gpiopin)){
     digitalWrite(timers[i].gpiopin, LOW);
   }
-  notifyWSClients(RC_OK, true, true, false, true);
+  publishLogMessage(C_WS | C_WS_STATUS | C_WS_TIMER | C_WS_TEMPERATURE , NULL, -1, RC_OK, NOCODE, NULL);
   return;
 }
 
@@ -293,8 +312,6 @@ void restartRelaisTimer(int id){
     timers[i].datestamp = dateStamp();
     timers[i].timestamp = timeStamp();
 
-    //timers[i].waittime = (timers[i].waittime + ( timers[i].timestamp - timers[i].laststarttime - (timers[i].waiting_period/1000)));
-
     timers[i].laststartdate = timers[i].datestamp;
     timers[i].laststarttime = timers[i].timestamp;
 
@@ -303,7 +320,7 @@ void restartRelaisTimer(int id){
     if(!digitalRead(timers[i].gpiopin)){
       digitalWrite(timers[i].gpiopin, HIGH);
     }
-    notifyWSClients(RC_OK, true, true, false, true);
+    publishLogMessage(C_WS | C_WS_STATUS | C_WS_TIMER | C_WS_TEMPERATURE , NULL, -1, RC_OK, NOCODE, NULL);
   } 
   return;
 }
@@ -327,7 +344,9 @@ bool writeTimers(){
 bool writeTimers(RelaisTimer timerToAdd){
   if(!runtime.sdready) return false;
   File file = SD.open("/timers.bin", FILE_WRITE);
-  if(!file) return false;
+  if(!file){
+    return false;
+  } 
 
   if(runtime.nbTimers>0){
     if(backuptimers!=NULL) free(backuptimers);
@@ -340,7 +359,7 @@ bool writeTimers(RelaisTimer timerToAdd){
       if(isRelaisTimerActive(timers[i].id)){
         stopRelaisTimer(timers[i].id);
       }
-      writeLogStatus(String(config.logPath) + "/log.txt", TIMER_DELETED, PRIO_HIGH, (String(timers[i].id)+"|"+timers[i].bez +"|" + timers[i].relaistype).c_str());
+      publishLogMessage(C_LOGFILE | C_MQTT, NULL, timers[i].id, RC_OK, TIMER_DELETED,  (String(timers[i].id)+"|"+timers[i].bez +"|" + timers[i].relaistype).c_str());
     }else{
       if(timers[i].timerstatetype != OFF && timers[i].active == false){
         stopRelaisTimer(timers[i].id);
@@ -440,18 +459,19 @@ void printRelaisTimer(RelaisTimer timer){
 
 void purgeAllTimers(){
   if(!runtime.sdready) return;
+  
   for(int i=0;i<runtime.nbTimers;i++){
     if(isRelaisTimerActive(timers[i].id)){
       stopRelaisTimer(timers[i].id);
     }
   }
   if(SD.remove("/timers.bin")){
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMERS_REMOVED, SYSTEM, NULL);
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_OK, TIMERS_REMOVED,  NULL);
   } else {
-    writeLogStatus(String(config.logPath) + "/log.txt", TIMERS_NOT_REMOVED, SYSTEM, NULL);
+    publishLogMessage(C_LOGFILE, NULL, -1, RC_ERROR, TIMERS_NOT_REMOVED,  NULL);
   }
   reloadTimers();
-  notifyWSClients(RC_OK, true, true, true, false);
+  publishLogMessage(C_WS | C_MQTT | C_WS_STATUS | C_WS_TIMER | C_WS_LOG , NULL, -1, RC_OK, NOCODE, NULL);
 }
 
 void clearRelaisTimerRunningValues(RelaisTimer *relaistimer, int value){
@@ -530,6 +550,7 @@ void stopAllTimers(){
 }
 
 bool mustHeatStop(RelaisTimer relaistimer){
+
   int actdatestamp = dateStamp();
   int acttimestamp = timeStamp();
   bool tempreached = isTemperatureReached(relaistimer);
@@ -549,7 +570,6 @@ bool mustHeatStart(RelaisTimer relaistimer){
   int actdatestamp = dateStamp();
   int acttimestamp = timeStamp();
   bool tempreached = isTemperatureReached(relaistimer);
-
   if(isTemperatureReached(relaistimer)) return false;
   if(relaistimer.laststartdate == actdatestamp) return false;
 
@@ -561,7 +581,6 @@ bool mustHeatStart(RelaisTimer relaistimer){
     if(dayofweek<=0 || dayofweek >7) return false;
     if(relaistimer.weekdays[dayofweek-1] == 0) return false;
   }
-  
   return true;
 
 }

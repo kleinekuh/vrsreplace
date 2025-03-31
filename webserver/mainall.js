@@ -1,8 +1,88 @@
 /**
- * v3All
+ * v4All
  */
 
 "use strict";
+const defaultLanguage = "de";
+const controlLanguage = '{' +
+	'"switchingtimes_en":{"text":"Switching times:"},' +
+	'"refreshTimerList_en":{"text":"Refresh"},' +
+	'"btnAddWarmWater_en":{"text":"+&nbsp;Hot&nbsp;water"},' +
+	'"btnDeleteTimer_en":{"text":"Delete"},' +
+	'"lastLog_en":{"text":"Log (last 10):"},' +
+	'"refreshLogList_en":{"text":"Refresh"},' +
+	'"currentTemperature_en":{"text":"Current:"},' +
+	'"dailyChange_en":{"text":"Daily:"},' +
+	
+	'"lblPassword_en":{"text":"Password:"},' +
+	'"lblTimezone_en":{"text":"Timezone:"},' +
+	'"lblLanguage_en":{"text":"Language:"},' +
+	'"lblWifireconnectinterval_en":{"text":"Reconnection&nbsp;waittime(ms):"},' +
+	'"lblMQTTActive_en":{"text":"MQTT&nbsp;active?"},' +
+	'"lblAllowCORS_en":{"text":"Allow&nbsp;CORS"},' +
+	'"lblHTMLFromSD_en":{"text":"HTML&nbsp;from&nbsp;SD"},' +
+	'"lblWificonnectionretries_en":{"text":"Connection&nbsp;attempts:"},' +
+	'"lblMaxTemperature_en":{"text":"Max&nbsp;Temperature(&#x2103;):"},' +
+	
+	'"lblInstalledVersion_en":{"text":"Installed&nbsp;Version:"},' +
+	
+	
+	'"lblSolarPumpHeader_en":{"text":"Solar&nbsp;pump"},' +
+	'"lblSolarPumpDuration_en":{"text":"Duration&nbsp;(s):"},' +
+	'"lblSolarPumpWaitingTime_en":{"text":"Waiting&nbsp;time&nbsp;(s):"},' +
+	'"lblSolarPumpTemperatureSwitchOn_en":{"text":"Switch-on&nbsp;temperature&nbsp;(&#8451):"},' +
+	'"lblSolarPumpTemperatureSwitchOff_en":{"text":"Switch-off&nbsp;temperature&nbsp;(&#8451):"},' +
+	'"lblSolarPumpTempDiffercence_en":{"text":"Temperature&nbsp;difference&nbsp;(&#8451):"},' +
+	'"lblSolarPumpTempSensor_en":{"text":"Temperature&nbsp;sensor:"},' +
+	
+	
+	'"btnRestart_en":{"text":"Restart"},' +
+	'"btnSave_en":{"text":"Save"},' +
+	'"btnUpload_en":{"text":"Selection"},' +
+	'"btnBack_en":{"text":"Back"},' +
+	'"cbActive_en":{"text":"Active"},' +
+	'"optAverage_en":{"text":"Average"},' +
+
+	'"cbMo_en":{"text":"MO"},' +
+	'"cbTu_en":{"text":"TU"},' +
+	'"cbWe_en":{"text":"WE"},' +
+	'"cbTh_en":{"text":"TH"},' +
+	'"cbFr_en":{"text":"FR"},' +
+	'"cbSa_en":{"text":"SA"},' +
+	'"cbSo_en":{"text":"SO"},' +
+	'"lblHeatingHeader_en":{"text":"Hot&nbsp;water"},' +
+	'"lblHeatingTimerProgram_en":{"text":"Times:"},' +
+	
+	'"optDaily_en":{"text":"Daily"},' +
+	'"optWeekdays_en":{"text":"Weekdays"},' +
+	'"optManually_en":{"text":"Manually"},' +
+	'"lblHeatingSwitchOnTime_en":{"text":"Switch-on&nbsp;time:"},' +
+	'"lblHeatingSwitchOffTime_en":{"text":"Switch-off&nbsp;time:"},' +
+	'"lblHeatingSwitchOffTemperature_en":{"text":"Switch-off&nbsp;temperature&nbsp;(&#8451):"},' +
+	'"lblHeatingHysteresis_en":{"text":"Hysteresis&nbsp;(&#8451):"},' +
+	'"lblHeatingTempSensor_en":{"text":"Temperature&nbsp;sensor:"}' +
+	
+	'}';
+const controlLanguageJSON = JSON.parse(controlLanguage);
+
+class IndexPage{
+	
+	constructor(id, lang, callback){
+		
+		this.id = id;
+		this.lang = setLanguage(lang);
+		/*initLogTranslate(this.lang);
+		addStatusTemplate();
+		addLogTemplate();
+		const relaisList = new RelaisList("timerlist", callback );
+		addRelaisTemplate(relaisList);
+		/*var lc = new LineChart("lc", "de-DE", "en", null);
+		var gc = new GaugeCharts("gkol1", "gsp1", "gsp2");
+		*/		
+	};
+}
+
+
 
 class LogTranslate{
 	constructor(code, status, message){
@@ -235,6 +315,14 @@ class Config{
   		this.wifireconnectinterval=-1;
   		
   		this.allowcors=false;
+  		this.deliverfromsd=false;
+  		
+  		this.mqttactive=false;
+  		this.mqttserver;
+  		this.mqttsendinterval=-1;
+  		
+  		this.language;
+  		this.timezone;
   	}
   	
   	setJSON(obj){
@@ -254,6 +342,14 @@ class Config{
   		this.setWifiReconnectinterval(obj.wifireconnectinterval);
   		
   		this.setAllowcors(obj.allowcors);
+  		this.setDeliverfromsd(obj.deliverfromsd);
+  		
+		this.setMqttactive(obj.mqttactive);
+		this.setMqttserver(obj.mqttserver);
+  		this.setMqttsendinterval(obj.mqttsendinterval);
+  		
+  		this.setLanguage(obj.language);
+  		this.setTimezone(obj.timezone);
   		
 	}
   	
@@ -297,6 +393,24 @@ class Config{
 	setAllowcors(allowcors){this.allowcors=allowcors;}
 	getAllowcors(){return this.allowcors;}   
   	
+  	setDeliverfromsd(deliverfromsd){this.deliverfromsd = deliverfromsd;}
+	getDeliverfromsd(){return this.deliverfromsd;}
+	
+	setMqttactive(mqttactive){this.mqttactive = mqttactive;}
+	getMqttactive(){return this.mqttactive;}
+  	
+  	setMqttserver(mqttserver){this.mqttserver = mqttserver;}
+  	getMqttserver(){return this.mqttserver;}
+  	
+  	setMqttsendinterval(mqttsendinterval){this.mqttsendinterval = mqttsendinterval;}
+  	getMqttsendinterval(){return this.mqttsendinterval;}
+
+  	setLanguage(language){this.language = language;}
+  	getLanguage(){return this.language;}
+  	
+  	setTimezone(timezone){this.timezone = timezone;}
+  	getTimezone(){return this.timezone;}
+
 }
 
 
@@ -325,6 +439,14 @@ class ConfigForm{
     	formData.append('wifireconnectinterval', this.config.getWifiReconnectinterval());
     	
     	formData.append('allowcors', this.config.getAllowcors());
+    	formData.append('deliverfromsd', this.config.getDeliverfromsd());
+    	
+    	formData.append('mqttactive', this.config.getMqttactive());
+    	formData.append('mqttserver', this.config.getMqttserver());
+    	formData.append('mqttsendinterval', this.config.getMqttsendinterval());
+    	
+    	formData.append('language', this.config.getLanguage());
+    	formData.append('timezone', this.config.getTimezone());
     	
     	formDeserialize(document.forms[0], formData);
 	}
@@ -334,23 +456,116 @@ class ConfigForm{
 		this.config.setJSON(obj);
 	}
 	getJSON(){
-		var formData = new FormData(document.getElementById(this.formId));
-		this.config.setSsid(encodeURIComponent(formData.get("ssid")));
-		this.config.setPassword(encodeURIComponent(formData.get("password")));
-		this.config.setNtpserver(encodeURIComponent(formData.get("ntpserver")));
-		
-		this.config.setTemperatureswt(formData.get("temperatureswt"));
-		this.config.setTemperaturelwt(formData.get("temperaturelwt"));
-		this.config.setTemperaturesrt(formData.get("temperaturesrt"));
-		this.config.setMaxTemperature(formData.get("maxtemperature"));
-		
-		this.config.setWifiConnectionretries(formData.get("wificonnectionretries"));
-		this.config.setWifiReconnectinterval(formData.get("wifireconnectinterval"));
-		
-		this.config.setAllowcors(formData.get("allowcors"));
-		
+		this.updateConfig();
 		var toSend = JSON.stringify(this.config);
 		return toSend;
+	}
+	getConfig(){
+		this.updateConfig();
+		return this.config;
+	}
+	
+	updateConfig(){
+		var formData = new FormData(document.getElementById(this.formId));
+		this.config.setSsid(encodeURIComponent(formData.get("ssid").trim()));
+		this.config.setPassword(encodeURIComponent(formData.get("password").trim()));
+		this.config.setNtpserver(encodeURIComponent(formData.get("ntpserver").trim()));
+		
+		this.config.setTemperatureswt(formData.get("temperatureswt").trim());
+		this.config.setTemperaturelwt(formData.get("temperaturelwt").trim());
+		this.config.setTemperaturesrt(formData.get("temperaturesrt").trim());
+		this.config.setMaxTemperature(formData.get("maxtemperature").trim());
+		
+		this.config.setWifiConnectionretries(formData.get("wificonnectionretries").trim());
+		this.config.setWifiReconnectinterval(formData.get("wifireconnectinterval").trim());
+		
+		this.config.setAllowcors(formData.get("allowcors"));
+		this.config.setDeliverfromsd(formData.get("deliverfromsd"));
+		
+		this.config.setMqttactive(formData.get("mqttactive"));
+  		if(this.config.getMqttactive()){
+  			this.config.setMqttserver(formData.get("mqttserver").trim());
+  			this.config.setMqttsendinterval(formData.get("mqttsendinterval").trim());
+  		}
+  		this.config.setLanguage(formData.get("language"));
+  		this.config.setTimezone(formData.get("timezone"));
+	}
+	
+	checkForm(){
+		var rc = true;
+		this.updateConfig();
+		hideAllValidationMessages(document.getElementById(this.formId));
+		if(isEmpty(this.config.getSsid())){
+			
+			document.getElementById("ssid_info").innerHTML=getLogMessageByCode(1000).getMessage();
+			document.getElementById("ssid_info").style.display='block';
+			rc = false;
+		}
+		if(isEmpty(this.config.getPassword())){
+			document.getElementById("password_info").innerHTML=getLogMessageByCode(1001).getMessage();
+			document.getElementById("password_info").style.display='block';
+			rc = false;
+		}
+		if(isEmpty(this.config.getNtpserver())){
+			document.getElementById("ntpserver_info").innerHTML=getLogMessageByCode(1002).getMessage();
+			document.getElementById("ntpserver_info").style.display='block';
+			rc = false;
+		}
+		if(isEmpty(this.config.getLanguage())){
+			document.getElementById("language_info").innerHTML=getLogMessageByCode(1003).getMessage();
+			document.getElementById("language_info").style.display='block';
+			rc = false;
+		}
+		
+		if(isEmpty(this.config.getWifiConnectionretries()) || checkNumber(this.config.getWifiConnectionretries(), 1)){
+			document.getElementById("wificonnectionretries_info").innerHTML=getLogMessageByCode(1004).getMessage();
+			document.getElementById("wificonnectionretries_info").style.display='block';
+			rc = false;
+		}
+		if(isEmpty(this.config.getWifiReconnectinterval()) || checkNumber(this.config.getWifiReconnectinterval(), 1000)){
+			document.getElementById("wifireconnectinterval_info").innerHTML=getLogMessageByCode(1005).getMessage();
+			document.getElementById("wifireconnectinterval_info").style.display='block';
+			rc = false;
+		}
+		if(isEmpty(this.config.getTemperatureswt()) || checkNumber(this.config.getTemperatureswt(), 1000)){
+			document.getElementById("temperatureswt_info").innerHTML=getLogMessageByCode(1005).getMessage();
+			document.getElementById("temperatureswt_info").style.display='block';
+			rc = false;
+		}						
+
+		if(isEmpty(this.config.getTemperaturelwt()) || checkNumber(this.config.getTemperaturelwt(), 1000)){
+			document.getElementById("temperaturelwt_info").innerHTML=getLogMessageByCode(1005).getMessage();
+			document.getElementById("temperaturelwt_info").style.display='block';
+			rc = false;
+		}
+		
+		if(isEmpty(this.config.getTemperaturesrt()) || checkNumber(this.config.getTemperaturesrt(), 1000)){
+			document.getElementById("temperaturesrt_info").innerHTML=getLogMessageByCode(1005).getMessage();
+			document.getElementById("temperaturesrt_info").style.display='block';
+			rc = false;
+		}
+		
+		if(isEmpty(this.config.getMaxTemperature()) || checkNumberRange(this.config.getMaxTemperature(), 25, 120)){
+			document.getElementById("maxtemperature_info").innerHTML=getLogMessageByCode(1006).getMessage();
+			document.getElementById("maxtemperature_info").style.display='block';
+			rc = false;
+		}			
+
+		if(this.config.getMqttactive()){
+			
+			if(isEmpty(this.config.getMqttserver())){
+				document.getElementById("mqttserver_info").innerHTML=getLogMessageByCode(1007).getMessage();
+				document.getElementById("mqttserver_info").style.display='block';
+				rc = false;
+			}	
+			if(isEmpty(this.config.getMqttsendinterval()) || checkNumber(this.config.getMqttsendinterval(), 1000)){
+				document.getElementById("mqttsendinterval_info").innerHTML=getLogMessageByCode(1005).getMessage();
+				document.getElementById("mqttsendinterval_info").style.display='block';
+				rc = false;
+			}
+		}
+		
+		return rc;
 	}
 	
 }
@@ -365,6 +580,11 @@ class RelaisForm{
 	
 	setId(id){
 		this.relais.setId(id);
+	}
+	
+	getRelais(){
+		this.updateRelais();
+		return this.relais;
 	}
 	
 	refreshForm(){
@@ -411,6 +631,13 @@ class RelaisForm{
 	}
 	
 	getJSON(){
+		this.updateRelais();
+		var toSend = JSON.stringify(this.relais);
+		return toSend;
+	}
+	
+	updateRelais(){
+		
 		var formData = new FormData(document.getElementById(this.formId));
 		this.relais.setBez(formData.get("bez"));
 		if(formData.get("active")!=null)this.relais.setActive(true);
@@ -440,17 +667,95 @@ class RelaisForm{
 			this.relais.setTemperatureOn(parseInt(formData.get("temperature_on")));
 			this.relais.setTemperatureDifference(parseInt(formData.get("temperature_difference")));
 		}
-		var toSend = JSON.stringify(this.relais);
-		return toSend;
+	}
+	
+	checkForm(){
+		var rc = true;
+		this.updateRelais();
+		hideAllValidationMessages(document.getElementById(this.formId));
+		
+		if(isEmpty(this.relais.getBez())){
+			document.getElementById("bez_info").innerHTML=getLogMessageByCode(1030).getMessage();
+			document.getElementById("bez_info").style.display='block';
+			rc = false;
+		}
+		if(this.relais.getRelais()==1){
+
+			if(this.relais.getTimerProgram()==2){
+				var weekdayChecked=false;
+				for(var i=0;i<7;i++){
+					if(this.relais.getWeekday(i)) weekdayChecked=true;
+				}
+				
+				if(!weekdayChecked){
+					document.getElementById("weekdays_info").innerHTML=getLogMessageByCode(1031).getMessage();
+					document.getElementById("weekdays_info").style.display='block';
+					rc = false;
+				}
+			}
+			if(this.relais.getTimerProgram()!=3){
+				if(isEmpty(this.relais.getTimeOn()) || checkNumberRange(this.relais.getTimeOn(), 0, 235959)){
+					document.getElementById("time_on_info").innerHTML=getLogMessageByCode(1032).getMessage();
+					document.getElementById("time_on_info").style.display='block';
+					rc = false;
+				}
+
+				if(isEmpty(this.relais.getTimeOff()) || checkNumberRange(this.relais.getTimeOff(), 0, 235959)){
+					document.getElementById("time_off_info").innerHTML=getLogMessageByCode(1033).getMessage();
+					document.getElementById("time_off_info").style.display='block';
+					rc = false;
+				}
+				if(isEmpty(this.relais.getHysteresis()) || checkNumberRange(this.relais.getHysteresis(), 5, 20)){
+					document.getElementById("hysteresis_info").innerHTML=getLogMessageByCode(1034).getMessage();
+					document.getElementById("hysteresis_info").style.display='block';
+					rc = false;
+				}
+			}
+
+			if(isEmpty(this.relais.getTemperatureOff()) || checkNumberRange(this.relais.getTemperatureOff(), 25, 70)){
+				document.getElementById("temperature_off_info").innerHTML=getLogMessageByCode(1035).getMessage();
+				//document.getElementById("temperature_off_info").innerHTML='Wert ung&uuml;ltig (>= 25 und <= 70)';
+				document.getElementById("temperature_off_info").style.display='block';
+				rc = false;
+			}
+		}else if(this.relais.getRelais()==2){
+			if(isEmpty(this.relais.getRunningPeriod()) || checkNumber(this.relais.getRunningPeriod(), 30*1000)){
+				document.getElementById("running_period_info").innerHTML=getLogMessageByCode(1036).getMessage();
+				document.getElementById("running_period_info").style.display='block';
+				rc = false;
+			} 
+			if(isEmpty(this.relais.getWaitingPeriod()) || checkNumber(this.relais.getWaitingPeriod(), 30*1000)){
+				document.getElementById("waiting_period_info").innerHTML=getLogMessageByCode(1036).getMessage();
+				document.getElementById("waiting_period_info").style.display='block';
+				rc = false;
+			}
+			if(isEmpty(this.relais.getTemperatureOn()) || checkNumberRange(this.relais.getTemperatureOn(), 10, 60)){
+				document.getElementById("temperature_on_info").innerHTML=getLogMessageByCode(1037).getMessage();
+				document.getElementById("temperature_on_info").style.display='block';
+				rc = false;
+			}
+			if(isEmpty(this.relais.getTemperatureOff()) || checkNumberRange(this.relais.getTemperatureOff(), 30, 70)){
+				document.getElementById("temperature_off_info").innerHTML=getLogMessageByCode(1038).getMessage();
+				document.getElementById("temperature_off_info").style.display='block';
+				rc = false;
+			}
+			if(isEmpty(this.relais.getTemperatureDifference()) || checkNumberRange(this.relais.getTemperatureDifference(), 3, 10)){
+				document.getElementById("temperature_difference_info").innerHTML=getLogMessageByCode(1039).getMessage();
+				document.getElementById("temperature_difference_info").style.display='block';
+				rc = false;
+			} 							
+		}
+		return rc;		
 	}
 }
 
 
 class RelaisList{
 
-	constructor (divId, callback) {
+	constructor (divId, callback, lang) {
 		this.divId = divId;
 		this.callback = callback;
+		this.lang = lang;
 		this.arrRelais = new Array();
 		this.timerInterval;
 	}
@@ -633,9 +938,9 @@ class RelaisList{
 		
 		for(var i=0;i<7;i++){
 			if(relais.getWeekday(i)==1){
-				timer = timer+ "<span class=\"dailytext active\" >"+getWeekdayFromDay(i)+"</span> ";
+				timer = timer+ "<span class=\"dailytext active\" >"+getWeekdayFromDay(i, this.lang)+"</span> ";
 			}else{
-				timer = timer+ "<span class=\"dailytext\" >"+getWeekdayFromDay(i)+"</span> ";
+				timer = timer+ "<span class=\"dailytext\" >"+getWeekdayFromDay(i, this.lang)+"</span> ";
 			}
 		}
 		timer = timer+ "</div>";
@@ -852,12 +1157,15 @@ class GaugeCharts{
 
 class LineChart{
  
-	constructor (divId, timezone, callback) {
+	constructor (divId, timezone, lang, callback) {
 		this.divId = divId;
 		this.callback = callback;
 		this.data=new Array();
+
+		this.hourtext = "Stunde";
+		if(lang=="en")this.hourtext = "Hour";
 		
-		this.format = new Intl.DateTimeFormat(timezone, { timeZone: 'Europe/Berlin', hour:'numeric',minute:'numeric'}).format;
+		this.format = new Intl.DateTimeFormat(timezone, { timeZone: 'Europe/Berlin', hour:'numeric', minute:'numeric'}).format;
 		this.hours = new Array();
 		this.init();
 		this.buildChart();
@@ -895,7 +1203,7 @@ class LineChart{
 	  		}],
 			series: [
 				{ 
-					label: "Stunde",
+					label: this.hourtext,
 					value: this.formatTime,
 
 				},
@@ -922,7 +1230,7 @@ class LineChart{
 				"x": {
 				      distr: 2,
 				      time: true,
-				      label: "Stunde",
+				      label: this.hourtext,
 				      
 				    },
 				"y": {
@@ -1070,212 +1378,230 @@ class LineChart{
 }
 
 
-
-class LineChartOld{
- 
-	constructor (divId, timezone, callback) {
-		this.divId = divId;
-		this.callback = callback;
-		this.data=new Array();
-		
-		this.format = new Intl.DateTimeFormat(timezone, { timeZone: 'Europe/Berlin', hour:'numeric',minute:'numeric'}).format;
-		this.hours = new Array();
-		this.init();
-		this.buildChart();
-		this.u;
-	}
-	
-	init(){
-		var t = 0;
-		for(var i=0;i<24;i++){
-			this.hours.push(t*1000);
-			t = t + 3600;
-		}
-	}
- 
- 	buildChart(){
-		var ts = this.hours;
-		const opts = {
-			width: 800,
-			height: 300,
-			axes: [{
-	    		values: (u, splits) => splits.map(ts => this.format((ts))),
-	  		},
-	  		{	
-	  			scale: 'y',
-	    		values: (u, vals, space) => vals.map(v => v + '\u2103'),
-	    		
-	  		}],
-			series: [
-				{ 
-					label: "Stunde",
-					value: this.formatTime,
-
-				},
-				{
-					stroke: "#6d99ce",
-					width: 2,
-					label: "KOL1",
-					value: this.formatTemperature,
-				},
-				{
-					stroke: "#C0C0C0",
-					width: 2,
-					label: "SP1",
-					value: this.formatTemperature,
-				},
-				{
-					stroke: "#9a9a9a",
-					width: 2,
-					label: "SP2",
-					value: this.formatTemperature,
-				},
-			],
-			scales: {
-				"x": {
-				      distr: 2,
-				      time: true,
-				      label: "Stunde",
-				      
-				    },
-				"y": {
-			  		range: [0,120],
-			    }
-			  },
-			  legend: {
-					 
-					live: true,
-			  }
-		};
-		this.data = [
-			this.hours,
-			Array(24).fill(0),
-			Array(24).fill(0),
-			Array(24).fill(0)
-		];
-		this.u = new uPlot(opts, this.data, document.getElementById(this.divId));
-		this.u.setSize(getLcSize(this.divId));
-		
-		window.addEventListener("resize", e => {
-			this.u.setSize(getLcSize(this.divId));
-		});
-	}
-	
- 
-	
-	formatTemperature(self, rawValue){
-		//rawValue.toFixed(0)+ ' ° C';
-		if(null!=rawValue) return ""+rawValue.toFixed(0)+ " \u2103";
-		else return null;
-	}
-	
-	formatTime(self, rawValue){
-		var date = new Date(rawValue);
-		if(null==rawValue) return "";
-		var hour = ""+date.getHours();
-		if(hour.length==1)hour = "0"+hour;
-		return hour+":00";
-	}
-	
-	
-	updateValues(jsonData){
-
-		for(var i=0;i<24;i++){
-			if(jsonData[0].TaMaxH[i] <130 && jsonData[0].TaMaxH[i] > -20){
-				this.data[1][i-1]=jsonData[0].TaMaxH[i];
-			}else{
-				this.data[1][i-1]=0;
-			}
-			if(jsonData[1].TaMaxH[i] <130 && jsonData[1].TaMaxH[i] > -20){
-				this.data[2][i-1]=jsonData[1].TaMaxH[i];
-			}
-			if(jsonData[2].TaMaxH[i] <130 && jsonData[2].TaMaxH[i] > -20){
-				this.data[3][i-1]=jsonData[2].TaMaxH[i];
-			}
-		}
-		this.u.setData(this.data);
-	}
-	
-	
-
-}
-
-
-
 // -----------------------------------
 // Default Functions not only class relevant 
 
 var logmessages = new Array();
-function initLogTranslate(){
-	logmessages.push(new LogTranslate(100, "OK", "System %1 gestartet"));
-	logmessages.push(new LogTranslate(101, "OK", "Tageswechsel"));
-
-	logmessages.push(new LogTranslate(110, "Error", "Unbekannter Systemaufruf"));
-	logmessages.push(new LogTranslate(111, "OK", "System neu gestartet"));
-	
-	logmessages.push(new LogTranslate(112, "OK", "NTP Uhrzeit aktualisiert"));
-	logmessages.push(new LogTranslate(113, "OK", "Firmware aktualtisiert"));
-	logmessages.push(new LogTranslate(114, "ERROR", "Firmware konnte nicht aktualisiert werden"));
-	
-	logmessages.push(new LogTranslate(115, "OK", "ADC-Wandler erfolgreich deaktiviert"));
-	logmessages.push(new LogTranslate(116, "ERROR", "ADC-Wandler konnten nicht deaktiviert werden"));
-	
-	logmessages.push(new LogTranslate(117, "OK", "Einstellungen gespeichert"));
-	logmessages.push(new LogTranslate(118, "OK", "Einstellungen wurden erfolgreich gepseichert. Neustart erforderlich."));
-	logmessages.push(new LogTranslate(119, "OK", "System wurde erfolgreich zur&uuml;ckgesetzt"));
-	logmessages.push(new LogTranslate(120, "ERROR", "Einstellungen konnten nicht gespeichert werden"));
+function initLogTranslate(lang){
 	
 	
-	logmessages.push(new LogTranslate(121, "ERROR", "Lut file <b>\"%1\"</b> konnte nicht gefunden werden"));
-	logmessages.push(new LogTranslate(122,  "Keine SD Karte vorhanden und/oder nicht beschreibbar"));
+	if(lang=='de'){
 	
-	logmessages.push(new LogTranslate(125, "ERROR", "WiFi Verbindung unterbrochen"));
-	logmessages.push(new LogTranslate(126, "OK", "WiFi Verbindung %1 wieder hergestellt"));
-	logmessages.push(new LogTranslate(127, "OK", "System wurde im Config-Modus %1 gestartet "));
+		logmessages.push(new LogTranslate(100, "OK", "System %1 gestartet"));
+		logmessages.push(new LogTranslate(101, "OK", "Tageswechsel"));
 	
-	
-	logmessages.push(new LogTranslate(180, "OK", "Uhrzeit vom NTP-Server aktualisiert"));
-	logmessages.push(new LogTranslate(181, "ERROR", "Uhrzeit konnte nicht gesetzt werden"));
+		logmessages.push(new LogTranslate(110, "Error", "Unbekannter Systemaufruf"));
+		logmessages.push(new LogTranslate(111, "OK", "System wird neu gestartet"));
 		
-	logmessages.push(new LogTranslate(200, "OK", "Timer <b>\"%2\"</b> gestartet"));
-	logmessages.push(new LogTranslate(201, "OK", "Timer <b>\"%2\"</b> gestoppt"));
-	logmessages.push(new LogTranslate(202, "OK", "Timer <b>\"%2\"</b> wurde in den Wait-State vesetzt"));
-	logmessages.push(new LogTranslate(203, "OK", "Timer <b>\"%2\"</b> wurde restartet"));
-	logmessages.push(new LogTranslate(204, "OK", "Alle Timer wurden gel&ouml;scht"));
-	logmessages.push(new LogTranslate(205, "ERROR", "Timer konnten nicht gel&ouml;scht werden"));
-	logmessages.push(new LogTranslate(206, "OK", "Timer <b>\"%2\"</b> wurde gel&ouml;scht"));
-	logmessages.push(new LogTranslate(207, "OK", "Heitzungstimer <b>\"%2\"</b> hinzugef&uuml;gt"));
-	logmessages.push(new LogTranslate(208, "OK", "Timer f&uuml;r Solarsteuerung <b>\"%2\"</b> hinzugef&uuml;gt"));
-	logmessages.push(new LogTranslate(209, "OK", "Timer f&uuml;r Zirkulationspumpe <b>\"%2\"</b> hinzugef&uuml;gt"));
-	logmessages.push(new LogTranslate(210, "OK", "Heitzungstimer   <b>\"%2\"</b> ge&auml;ndert"));
-	logmessages.push(new LogTranslate(211, "OK", "Parameter f&uuml;r Solarsteuerung <b>\"%2\"</b> ge&auml;ndert"));
-	logmessages.push(new LogTranslate(212, "OK", "Schaltzeiten f&uuml;r Zirkulationspumpe <b>\"%2\"</b> ge&auml;ndert"));
+		logmessages.push(new LogTranslate(112, "OK", "NTP Uhrzeit aktualisiert"));
+		logmessages.push(new LogTranslate(113, "OK", "Firmware aktualtisiert"));
+		logmessages.push(new LogTranslate(114, "ERROR", "Firmware konnte nicht aktualisiert werden"));
+		
+		logmessages.push(new LogTranslate(115, "OK", "ADC-Wandler erfolgreich deaktiviert"));
+		logmessages.push(new LogTranslate(116, "ERROR", "ADC-Wandler konnten nicht deaktiviert werden"));
+		
+		logmessages.push(new LogTranslate(117, "OK", "Einstellungen gespeichert"));
+		logmessages.push(new LogTranslate(118, "OK", "Einstellungen wurden erfolgreich gepseichert. Neustart erforderlich."));
+		logmessages.push(new LogTranslate(119, "OK", "System wurde erfolgreich zur&uuml;ckgesetzt"));
+		logmessages.push(new LogTranslate(120, "ERROR", "Einstellungen konnten nicht gespeichert werden"));
+		
+		
+		logmessages.push(new LogTranslate(121, "ERROR", "Lut file <b>\"%1\"</b> konnte nicht gefunden werden"));
+		logmessages.push(new LogTranslate(122, "ERROR", "Keine SD Karte vorhanden und/oder nicht beschreibbar"));
+		
+		logmessages.push(new LogTranslate(125, "ERROR", "WiFi Verbindung unterbrochen"));
+		logmessages.push(new LogTranslate(126, "OK", "WiFi Verbindung %1 wieder hergestellt"));
+		logmessages.push(new LogTranslate(127, "OK", "System wurde im Config-Modus %1 gestartet "));
+		
+		
+		logmessages.push(new LogTranslate(180, "OK", "Uhrzeit vom NTP-Server aktualisiert"));
+		logmessages.push(new LogTranslate(181, "ERROR", "Uhrzeit konnte nicht gesetzt werden"));
+		logmessages.push(new LogTranslate(182, "OK", "Zeitzone <b>\"%1\"</b> gesetzt"));
+			
+		logmessages.push(new LogTranslate(200, "OK", "Timer <b>\"%2\"</b> gestartet"));
+		logmessages.push(new LogTranslate(201, "OK", "Timer <b>\"%2\"</b> gestoppt"));
+		logmessages.push(new LogTranslate(202, "OK", "Timer <b>\"%2\"</b> wurde in den Wait-State vesetzt"));
+		logmessages.push(new LogTranslate(203, "OK", "Timer <b>\"%2\"</b> wurde restartet"));
+		logmessages.push(new LogTranslate(204, "OK", "Alle Timer wurden gel&ouml;scht"));
+		logmessages.push(new LogTranslate(205, "ERROR", "Timer konnten nicht gel&ouml;scht werden"));
+		logmessages.push(new LogTranslate(206, "OK", "Timer <b>\"%2\"</b> wurde gel&ouml;scht"));
+		logmessages.push(new LogTranslate(207, "OK", "Heitzungstimer <b>\"%2\"</b> hinzugef&uuml;gt"));
+		logmessages.push(new LogTranslate(208, "OK", "Timer f&uuml;r Solarsteuerung <b>\"%2\"</b> hinzugef&uuml;gt"));
+		logmessages.push(new LogTranslate(209, "OK", "Timer f&uuml;r Zirkulationspumpe <b>\"%2\"</b> hinzugef&uuml;gt"));
+		logmessages.push(new LogTranslate(210, "OK", "Heitzungstimer <b>\"%2\"</b> ge&auml;ndert"));
+		logmessages.push(new LogTranslate(211, "OK", "Parameter f&uuml;r Solarsteuerung <b>\"%2\"</b> ge&auml;ndert"));
+		logmessages.push(new LogTranslate(212, "OK", "Schaltzeiten f&uuml;r Zirkulationspumpe <b>\"%2\"</b> ge&auml;ndert"));
+		
+		logmessages.push(new LogTranslate(300, "ERROR", "Timer konnte nicht gesartet werden, da kein ID Parameter im Aufruf vorhanden"));
+		logmessages.push(new LogTranslate(301, "ERROR", "Timer konnte nicht gestartet werden, da ID nicht vorhanden")); 	
+		logmessages.push(new LogTranslate(302, "ERROR", "Timer mit der &uuml;bergebenen ID, wurde bereits gestartet")); 	
+		logmessages.push(new LogTranslate(303, "ERROR", "Ein Timer mit dem gew&auml;hlten Relais-Type, wurde bereits gestaetet")); 	
+		logmessages.push(new LogTranslate(304, "OK", "Timer <b>\"%2\"</b> wurde deaktiviert")); 	
+		logmessages.push(new LogTranslate(305, "OK", "Timer <b>\"%2\"</b> gestartet"));
+		logmessages.push(new LogTranslate(306, "ERROR", "Timer konnte nicht gestopt werden, kein ID Parameter im Aufruf vorhanden"));
+		logmessages.push(new LogTranslate(307, "OK", "Timer <b>\"%2\"</b> gestoppt")); 	
+		logmessages.push(new LogTranslate(308, "ERROR", "Timer konnte nicht gestopt werden, da kein laufender Timer mit der ID gefunden wurde"));
+		logmessages.push(new LogTranslate(309, "ERROR", "Timer(s) konnten nicht gel&ouml;scht werden, keine ID's &uuml;bergeben")); 	
+		logmessages.push(new LogTranslate(310, "ERROR", "Genereller Fehler beim L&ouml;schen der Timer <b>\"%1\"</b>"));	
+		logmessages.push(new LogTranslate(311, "OK", "Timer(s) erfolgreich gel&ouml;scht"));
+		logmessages.push(new LogTranslate(312, "ERROR", "Timer nicht gefunden. ID nicht vorhanden")); 	
+		logmessages.push(new LogTranslate(313, "ERROR", "Timer nicht gefunden. Keine ID beim Aufruf uuml;bergeben")); 	
+		logmessages.push(new LogTranslate(314, "ERROR", "Timer konnte nicht ge&auml;ndert werden. Es wurde kein Timer &uuml;bergeben")); 	
+	 	logmessages.push(new LogTranslate(315, "ERROR", "Genereller Fehler beim &Auml;dern des Timers <b>\"%1\"</b>"));
+		logmessages.push(new LogTranslate(316, "OK", "Timer <b>\"%2\"</b> hinzugef&uuml;gt"));
+		logmessages.push(new LogTranslate(317, "OK", "Timer <b>\"%2\"</b> ge&auml;ndert"));
+							
+		logmessages.push(new LogTranslate(340, "OK", "Webservice Connect ID:%1 von %2"));
+		logmessages.push(new LogTranslate(341, "OK", "Erfolgreiche Abmeldung von Client ID:%1"));
 	
-	logmessages.push(new LogTranslate(300, "ERROR", "Timer konnte nicht gesartet werden, da kein ID Parameter im Aufruf vorhanden"));
-	logmessages.push(new LogTranslate(301, "ERROR", "Timer konnte nicht gestartet werden, da ID nicht vorhanden")); 	
-	logmessages.push(new LogTranslate(302, "ERROR", "Timer mit der &uuml;bergebenen ID, wurde bereits gestartet")); 	
-	logmessages.push(new LogTranslate(303, "ERROR", "Ein Timer mit dem gew&auml;hlten Relais-Type, wurde bereits gestaetet")); 	
-	logmessages.push(new LogTranslate(304, "OK", "Timer <b>\"%2\"</b> wurde deaktiviert")); 	
-	logmessages.push(new LogTranslate(305, "OK", "Timer <b>\"%2\"</b> gestartet"));
-	logmessages.push(new LogTranslate(306, "ERROR", "Timer konnte nicht gestopt werden, kein ID Parameter im Aufruf vorhanden"));
-	logmessages.push(new LogTranslate(307, "OK", "Timer <b>\"%2\"</b> gestoppt")); 	
-	logmessages.push(new LogTranslate(308, "ERROR", "Timer konnte nicht gestopt werden, da kein laufender Timer mit der ID gefunden wurde"));
-	logmessages.push(new LogTranslate(309, "ERROR", "Timer(s) konnten nicht gel&ouml;scht werden, keine ID's &uuml;bergeben")); 	
-	logmessages.push(new LogTranslate(310, "ERROR", "Genereller Fehler beim L&ouml;schen der Timer <b>\"%1\"</b>"));	
-	logmessages.push(new LogTranslate(311, "OK", "Timer(s) erfolgreich gel&ouml;scht"));
-	logmessages.push(new LogTranslate(312, "ERROR", "Timer nicht gefunden. ID nicht vorhanden")); 	
-	logmessages.push(new LogTranslate(313, "ERROR", "Timer nicht gefunden. Keine ID beim Aufruf uuml;bergeben")); 	
-	logmessages.push(new LogTranslate(314, "ERROR", "Timer konnte nicht ge&auml;ndert werden. Es wurde kein Timer &uuml;bergeben")); 	
- 	logmessages.push(new LogTranslate(315, "ERROR", "Genereller Fehler beim &Auml;dern des Timers <b>\"%1\"</b>"));
-	logmessages.push(new LogTranslate(316, "OK", "Timer <b>\"%2\"</b> hinzugef&uuml;gt"));
-	logmessages.push(new LogTranslate(317, "OK", "Timer <b>\"%2\"</b> ge&auml;ndert"));
-						
-	logmessages.push(new LogTranslate(340, "OK", "Webservice Connect ID:%1 von %2"));
-	logmessages.push(new LogTranslate(341, "OK", "Erfolgreiche Abmeldung von Client ID:%1"));
+		logmessages.push(new LogTranslate(350, "OK", "Firmwareupdate gestartet"));
+		logmessages.push(new LogTranslate(351, "ERROR", "Fehler beim Firmwareupdate"));
+		logmessages.push(new LogTranslate(352, "OK", "Firmwareupdate erfolgreich ausgef&uuml;hrt."));
+		logmessages.push(new LogTranslate(353, "ERROR", "Parameter konnten nicht geladen werden."));
+		
+		logmessages.push(new LogTranslate(360, "ERROR", "Config konnte nicht ge&auml;ndert werden"));
+		logmessages.push(new LogTranslate(361, "ERROR", "Conifg nicht vorhanden"));
+		
+		logmessages.push(new LogTranslate(370, "OK", "MQTT gestartet <b>\"%1\"</b>"));
+		logmessages.push(new LogTranslate(371, "OK", "MQTT gestoppt"));
+		logmessages.push(new LogTranslate(372, "ERROR", "MQTT Fehler <b>\"%1\"</b>"));
+		logmessages.push(new LogTranslate(373, "OK", "MQTT wurde initialisiert"));
+		logmessages.push(new LogTranslate(374, "ERROR", "MQTT konnte nicht initialisiert werden \"%1\" "));
 
-	logmessages.push(new LogTranslate(350, "OK", "Firmwareupdate gestartet"));
-	logmessages.push(new LogTranslate(351, "ERROR", "Fehler beim Firmwareupdate"));
-	logmessages.push(new LogTranslate(352, "OK", "Firmwareupdate erfolgreich ausgef&uuml;hrt."));
+		
+		logmessages.push(new LogTranslate(1000, "VALIDATION", "SSID inkorrekt"));
+		logmessages.push(new LogTranslate(1001, "VALIDATION", "Passwort inkorrekt"));
+		logmessages.push(new LogTranslate(1002, "VALIDATION", "NTP-Server inkorrekt"));
+		logmessages.push(new LogTranslate(1003, "VALIDATION", "Sprache inkorrekt"));
+		logmessages.push(new LogTranslate(1004, "VALIDATION", "Wert ung&uuml;ltig (>= 1)"));
+		
+		logmessages.push(new LogTranslate(1005, "VALIDATION", "Wert ung&uuml;ltig (>= 1000)"));
+		logmessages.push(new LogTranslate(1006, "VALIDATION", "Wert ung&uuml;ltig (>= 25 und <= 120)"));
+		logmessages.push(new LogTranslate(1007, "VALIDATION", "MQTT-Server inkorrekt"));
+		
+		
+		logmessages.push(new LogTranslate(1030, "VALIDATION", "Kein Name vorhanden"));
+		logmessages.push(new LogTranslate(1031, "VALIDATION", "Kein Wochentag ausgew&auml;hlt"));
+		logmessages.push(new LogTranslate(1032, "VALIDATION", "Startzeit nicht valide"));
+		logmessages.push(new LogTranslate(1033, "VALIDATION", "Endzeit nicht valide"));
+		logmessages.push(new LogTranslate(1034, "VALIDATION", "Wert ung&uuml;ltig (>= 5 und <= 20)"));
+		logmessages.push(new LogTranslate(1035, "VALIDATION", "Wert ung&uuml;ltig (>= 25 und <= 70"));
+		logmessages.push(new LogTranslate(1036, "VALIDATION", "Wert ung&uuml;ltig (>= 30)"));
+		logmessages.push(new LogTranslate(1037, "VALIDATION", "Wert ung&uuml;ltig (>= 10 und <= 60)"));
+		logmessages.push(new LogTranslate(1038, "VALIDATION", "Wert ung&uuml;ltig (>= 30 und <= 70)"));
+		logmessages.push(new LogTranslate(1039, "VALIDATION", "Wert ung&uuml;ltig (>= 3 und <= 10)"));
+		
+	
+	}else if(lang=='en'){
+		
+		
+		logmessages.push(new LogTranslate(100, "OK", "System %1 started"));
+		logmessages.push(new LogTranslate(101, "OK", "day change"));
+	
+		logmessages.push(new LogTranslate(110, "Error", "Systemcall unknown"));
+		logmessages.push(new LogTranslate(111, "OK", "System going to reboot"));
+		
+		logmessages.push(new LogTranslate(112, "OK", "NTP time updated"));
+		logmessages.push(new LogTranslate(113, "OK", "Firmware updated"));
+		logmessages.push(new LogTranslate(114, "ERROR", "Not able updating firmware"));
+		
+		logmessages.push(new LogTranslate(115, "OK", "ADC-Converter successfully deactivated"));
+		logmessages.push(new LogTranslate(116, "ERROR", "ADC-Converter could not be deactivated"));
+		
+		logmessages.push(new LogTranslate(117, "OK", "Settings saved"));
+		logmessages.push(new LogTranslate(118, "OK", "Settings saved successfully. Restart required."));
+		logmessages.push(new LogTranslate(119, "OK", "System reset successfully"));
+		logmessages.push(new LogTranslate(120, "ERROR", "Settings could not be saved"));
+		
+		
+		logmessages.push(new LogTranslate(121, "ERROR", "Lut file <b>\"%1\"</b> could not be detected"));
+		logmessages.push(new LogTranslate(122, "ERROR", "No SD card and/or not writable"));
+		
+		logmessages.push(new LogTranslate(125, "ERROR", "WiFi connection interrupted"));
+		logmessages.push(new LogTranslate(126, "OK", "WiFi %1 reconnected"));
+		logmessages.push(new LogTranslate(127, "OK", "System started in config mode %1"));
+		
+		logmessages.push(new LogTranslate(180, "OK", "Time updated by NTP server"));
+		logmessages.push(new LogTranslate(181, "ERROR", "Time could not be set"));
+		logmessages.push(new LogTranslate(182, "OK", "Timezone <b>\"%1\"</b> set"));
+
+			
+		logmessages.push(new LogTranslate(200, "OK", "Timer <b>\"%2\"</b> started"));
+		logmessages.push(new LogTranslate(201, "OK", "Timer <b>\"%2\"</b> stopped"));
+		logmessages.push(new LogTranslate(202, "OK", "Timer <b>\"%2\"</b> changed into wait state"));
+		logmessages.push(new LogTranslate(203, "OK", "Timer <b>\"%2\"</b> restarted"));
+		logmessages.push(new LogTranslate(204, "OK", "All timers deleted"));
+		logmessages.push(new LogTranslate(205, "ERROR", "Not able deleting timer"));
+		logmessages.push(new LogTranslate(206, "OK", "Timer <b>\"%2\"</b> deleted"));
+		logmessages.push(new LogTranslate(207, "OK", "Heating timer <b>\"%2\"</b> added"));
+		logmessages.push(new LogTranslate(208, "OK", "Timer for solar control <b>\"%2\"</b> added"));
+		logmessages.push(new LogTranslate(209, "OK", "Timer for circulation pump <b>\"%2\"</b> added"));
+		logmessages.push(new LogTranslate(210, "OK", "Heating timer <b>\"%2\"</b> changed"));
+		
+		logmessages.push(new LogTranslate(211, "OK", "Parameter for solar control <b>\"%2\"</b> changed"));
+		logmessages.push(new LogTranslate(212, "OK", "Parameter for circulation pump <b>\"%2\"</b> changed"));
+		
+		logmessages.push(new LogTranslate(300, "ERROR", "Not able starting timer, given ID not exists inside URL"));
+		logmessages.push(new LogTranslate(301, "ERROR", "Not able starting timer, provided ID does not exists")); 	
+		logmessages.push(new LogTranslate(302, "ERROR", "Timer with ID allreday started")); 
+			
+		logmessages.push(new LogTranslate(303, "ERROR", "Timer with selected relais-type, had allready been started")); 	
+		logmessages.push(new LogTranslate(304, "OK", "Timer <b>\"%2\"</b> deactivated")); 	
+		logmessages.push(new LogTranslate(305, "OK", "Timer <b>\"%2\"</b> started"));
+		logmessages.push(new LogTranslate(306, "ERROR", "Not able stopping timer, no ID Parameter inside URL call"));
+		logmessages.push(new LogTranslate(307, "OK", "Timer <b>\"%2\"</b> stopped"));
+		 	
+		logmessages.push(new LogTranslate(308, "ERROR", "Not able stopping timer, no timer with given ID started or found "));
+		logmessages.push(new LogTranslate(309, "ERROR", "Not able deleting timer(s), no ID's had been provided")); 	
+		logmessages.push(new LogTranslate(310, "ERROR", "General error deleting timer <b>\"%1\"</b>"));	
+		logmessages.push(new LogTranslate(311, "OK", "Timer(s) successfully deletederfolgreich gel&ouml;scht"));
+		logmessages.push(new LogTranslate(312, "ERROR", "Timer not found. ID does not exist")); 	
+		logmessages.push(new LogTranslate(313, "ERROR", "Timer not found. ID not provide inside the call")); 	
+		logmessages.push(new LogTranslate(314, "ERROR", "Not able changing timer. No timer provided")); 	
+	 	logmessages.push(new LogTranslate(315, "ERROR", "General error changing timer <b>\"%1\"</b>"));
+		logmessages.push(new LogTranslate(316, "OK", "Timer <b>\"%2\"</b> added"));
+		logmessages.push(new LogTranslate(317, "OK", "Timer <b>\"%2\"</b> changed"));
+							
+		logmessages.push(new LogTranslate(340, "OK", "Webservice Connect ID:%1 from %2"));
+		logmessages.push(new LogTranslate(341, "OK", "Successful logout from client ID:%1"));
+	
+		logmessages.push(new LogTranslate(350, "OK", "Firmware update started"));
+		logmessages.push(new LogTranslate(351, "ERROR", "Error updating firmware"));
+		logmessages.push(new LogTranslate(352, "OK", "Firmware update succesfully"));
+		logmessages.push(new LogTranslate(353, "ERROR", "Not able retrieving parameters"));
+		
+		logmessages.push(new LogTranslate(360, "ERROR", "Config not changed"));
+		logmessages.push(new LogTranslate(361, "ERROR", "Conifg not exists"));
+		
+		logmessages.push(new LogTranslate(370, "OK", "MQTT started <b>\"%1\"</b>"));
+		logmessages.push(new LogTranslate(371, "OK", "MQTT stopped"));
+		logmessages.push(new LogTranslate(372, "ERROR", "MQTT Error \"%1\" "));
+		logmessages.push(new LogTranslate(373, "OK", "MQTT initialized"));
+		logmessages.push(new LogTranslate(374, "ERROR", "MQTT initializsation error \"%1\" "));
+		
+		logmessages.push(new LogTranslate(1000, "VALIDATION", "SSID invalid"));
+		logmessages.push(new LogTranslate(1001, "VALIDATION", "Password invalid"));
+		logmessages.push(new LogTranslate(1002, "VALIDATION", "NTP-Server invalid"));
+		logmessages.push(new LogTranslate(1003, "VALIDATION", "Languagecode invalid"));
+		logmessages.push(new LogTranslate(1004, "VALIDATION", "Value invalid (>= 1)"));
+		
+		logmessages.push(new LogTranslate(1005, "VALIDATION", "Value invalid (>= 1000)"));
+		logmessages.push(new LogTranslate(1006, "VALIDATION", "Value invalid (>= 25 and <= 120)"));
+		logmessages.push(new LogTranslate(1007, "VALIDATION", "MQTT-Server invalid"));
+
+		logmessages.push(new LogTranslate(1030, "VALIDATION", "No name provided"));
+		logmessages.push(new LogTranslate(1031, "VALIDATION", "No weekday selected"));
+		logmessages.push(new LogTranslate(1032, "VALIDATION", "Start time invalid"));
+		logmessages.push(new LogTranslate(1033, "VALIDATION", "End time invalid"));
+		logmessages.push(new LogTranslate(1034, "VALIDATION", "Value invalid (>= 5 and <= 20)"));
+		
+		logmessages.push(new LogTranslate(1035, "VALIDATION", "Value invalid (>= 25 and <= 70"));
+		logmessages.push(new LogTranslate(1036, "VALIDATION", "Value invalid (>= 30)"));
+
+		logmessages.push(new LogTranslate(1037, "VALIDATION", "Value invalid (>= 10 and <= 60)"));
+		logmessages.push(new LogTranslate(1038, "VALIDATION", "Value invalid (>= 30 and <= 70)"));
+		logmessages.push(new LogTranslate(1039, "VALIDATION", "Value invalid (>= 3 and <= 10)"));
+	}
 	
 }
 
@@ -1335,14 +1661,24 @@ function  getSecondsFromMilliseconds(input){
 	return parseInt(output);
 }
 
-function getWeekdayFromDay(day){
-	if(day==0) return "MO";
-	if(day==1) return "DI";
-	if(day==2) return "MI";
-	if(day==3) return "DO";
-	if(day==4) return "FR";
-	if(day==5) return "SA";
-	if(day==6) return "SO";
+function getWeekdayFromDay(day, lang){
+	if(lang=='en'){
+		if(day==0) return "MO";
+		if(day==1) return "TU";
+		if(day==2) return "WE";
+		if(day==3) return "TH";
+		if(day==4) return "FR";
+		if(day==5) return "SA";
+		if(day==6) return "SO";
+	}else{
+		if(day==0) return "MO";
+		if(day==1) return "DI";
+		if(day==2) return "MI";
+		if(day==3) return "DO";
+		if(day==4) return "FR";
+		if(day==5) return "SA";
+		if(day==6) return "SO";
+	}
 	return "NA";
 }
 
@@ -1468,9 +1804,10 @@ function buildLogTextByCode(json){
 			break;
 		}
 	}
+	
 	if(null!=logmessage){
 		var textMessage = logmessage.getMessage();
-		if(json.message != ""){
+		if(json.message != null && json.message != ""){
 			var fragments = json.message.split("|");
 			for(var k=0;k<fragments.length;k++) textMessage = textMessage.replace("%"+(k+1),fragments[k]);
 		}
@@ -1482,7 +1819,7 @@ function buildLogTextByCode(json){
  
 
 
-function addRelaisTemplate(){
+function addRelaisTemplate(relaisList){
 	htmx.defineExtension('relais-template', {
 	 	transformResponse : function(text, xhr, elt) {
 			if(null!=text){
@@ -1509,6 +1846,9 @@ function addStatusTemplate(){
 			  rc = rc +" / " + data.timestamp;
 			  if(data.sd) rc = rc + " / SDCard: aktiv";
 			  else rc = rc + " / SDCard: inaktiv";
+			  
+  			  if(data.mqttactive) rc = rc + " / MQTT: On";
+			  else rc = rc + " / MQTT: Off";
 			  return rc;
 			}
 			return '';
@@ -1523,6 +1863,95 @@ function getLcSize(divid) {
 		height: gs.getBoundingClientRect().height-40,
 	}
 }
+
+
+function onlyNumbers(event){
+    var ch = String.fromCharCode(event.which);
+    if(!(/[0-9\s]/.test(ch))){
+    	event.preventDefault();
+	}
+	return;
+}
+
+function isNumeric(str) {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
+
+function isEmpty(value){
+	
+	// Javascript ist der grösste Dreck
+	if(typeof value == 'number'){
+		if(value==null || value==-1 || isNaN(value)) return true;
+	}else{
+		if(value==null || value.trim()=='' || value == '%20') return true;	
+	}
+	return false;
+}
+
+function checkNumber(value, start){
+	var temp = parseInt(value);
+	if(isNaN(temp) || temp < start) return true;
+	return false;
+}
+
+function checkNumberRange(value, start, end){
+	var temp = parseInt(value);
+	if(temp==NaN || temp < start || temp>end) return true;
+	return false;
+}
+
+function hideAllValidationMessages(form){
+	var messages = form.getElementsByClassName("validation-message");
+	for(var i=0;i<messages.length;i++) messages[i].style.display='none';					
+}
+
+function getCookieByName(name) {
+	const cookies = document.cookie.split(';');
+	for (let cookie of cookies) {
+		cookie = cookie.trim();
+		if (cookie.startsWith(name + '=')) {
+			return cookie.substring(name.length + 1);
+		}
+	}
+	return null;
+}
+
+
+function setControlLanguage(element, lang, data){
+	if(!isEmptyU(data[element.id+"_"+lang])) element.innerHTML = data[element.id+"_"+lang].text;
+}
+
+
+
+
+function setLanguage(lang){
+	if(isEmptyU(lang)){
+		lang = getCookieByName("lang");
+		if(isEmptyU(lang)){
+			lang= defaultLanguage;
+			return lang;
+		}
+		
+	}
+	if(lang!='en' && lang !='de'){
+		lang= defaultLanguage;
+		return lang;
+	} 
+	const elements = document.querySelectorAll('[lang]');
+	for (var i=0;i<elements.length;i++) {
+		setControlLanguage(elements[i], lang, controlLanguageJSON);
+	}
+	return lang;	
+}
+
+function isEmptyU(val){
+    return (val === undefined || val == null || val.length <= 0) ? true : false;
+}
+
+
 
 // Start Gauge Charts
 !function(e){var t,o,F,S,n=(o=(t=e).document,F=Array.prototype.slice,S=t.requestAnimationFrame||t.mozRequestAnimationFrame||t.webkitRequestAnimationFrame||t.msRequestAnimationFrame||function(e){return setTimeout(e,1e3/60)},function(){var r="http://www.w3.org/2000/svg",M={centerX:50,centerY:50},k={dialRadius:40,dialStartAngle:135,dialEndAngle:45,value:0,max:100,min:0,valueDialClass:"value",valueClass:"value-text",dialClass:"dial",gaugeClass:"gauge",showValue:!0,gaugeColor:null,label:function(e){return Math.round(e)}};function V(e,t,n){var a=o.createElementNS(r,e);for(var i in t)a.setAttribute(i,t[i]);return n&&n.forEach(function(e){a.appendChild(e)}),a}function R(e,t){return e*t/100}function E(e,t,n){var a=Number(e);return n<a?n:a<t?t:a}function q(e,t,n,a){var i=a*Math.PI/180;return{x:Math.round(1e3*(e+n*Math.cos(i)))/1e3,y:Math.round(1e3*(t+n*Math.sin(i)))/1e3}}return function(e,r){r=function(){var n=arguments[0];return F.call(arguments,1).forEach(function(e){for(var t in e)e.hasOwnProperty(t)&&(n[t]=e[t])}),n}({},k,r);var o,l,t,n=e,s=r.max,u=r.min,a=E(r.value,u,s),c=r.dialRadius,d=r.showValue,f=r.dialStartAngle,v=r.dialEndAngle,i=r.valueDialClass,m=r.valueClass,g=(r.valueLabelClass,r.dialClass),h=r.gaugeClass,p=r.color,w=r.label,x=r.viewBox;if(f<v){console.log("WARN! startAngle < endAngle, Swapping");var A=f;f=v,v=A}function y(e,t,n,a){var i=function(e,t,n){var a=M.centerX,i=M.centerY;return{end:q(a,i,e,n),start:q(a,i,e,t)}}(e,t,n),r=i.start,o=i.end,l=void 0===a?1:a;return["M",r.x,r.y,"A",e,e,0,l,1,o.x,o.y].join(" ")}function b(e,t){var n=function(e,t,n){return 100*(e-t)/(n-t)}(e,u,s),a=R(n,360-Math.abs(f-v)),i=a<=180?0:1;d&&(o.textContent=w.call(r,e)),l.setAttribute("d",y(c,f,a+f,i))}function C(e,t){var n=p.call(r,e),a=1e3*t,i="stroke "+a+"ms ease";l.style.stroke=n,l.style["-webkit-transition"]=i,l.style["-moz-transition"]=i,l.style.transition=i}return t={setMaxValue:function(e){s=e},setValue:function(e){a=E(e,u,s),p&&C(a,0),b(a)},setValueAnimated:function(e,t){var n=a;a=E(e,u,s),n!==a&&(p&&C(a,t),function(e){var t=e.duration,a=1,i=60*t,r=e.start||0,o=e.end-r,l=e.step,s=e.easing||function(e){return(e/=.5)<1?.5*Math.pow(e,3):.5*(Math.pow(e-2,3)+2)};S(function e(){var t=a/i,n=o*s(t)+r;l(n,a),a+=1,t<1&&S(e)})}({start:n||0,end:a,duration:t||1,step:function(e,t){b(e,t)}}))},getValue:function(){return a}},function(e){o=V("text",{x:50,y:50,fill:"#999",class:m,"font-size":"100%","font-family":"sans-serif","font-weight":"normal","text-anchor":"middle","alignment-baseline":"middle","dominant-baseline":"central"}),l=V("path",{class:i,fill:"none",stroke:"#666","stroke-width":2.5,d:y(c,f,f)});var t=R(100,360-Math.abs(f-v)),n=V("svg",{viewBox:x||"0 0 100 100",class:h},[V("path",{class:g,fill:"none",stroke:"#eee","stroke-width":2,d:y(c,f,v,t<=180?0:1)}),V("g",{class:"text-container"},[o]),l]);e.appendChild(n)}(n),t.setValue(a),t}}());"function"==typeof define&&define.amd?define(function(){return n}):"object"==typeof module&&module.exports?module.exports=n:e.Gauge=n}("undefined"==typeof window?this:window);

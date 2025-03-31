@@ -10,6 +10,7 @@ body {
 	color:#4F4F4F;
 	font-size: 1.0rem;
 }
+	
 
 .header {
 	padding: 5px;
@@ -60,6 +61,13 @@ body {
     padding: 0;
      
   }
+}
+
+
+ .validation-message{
+	display: none;
+	color: red; 
+	font-size: 12px;
 }
 
 .content-div{
@@ -387,6 +395,21 @@ body {
 	margin-top: 0px !important;
 }
 
+.form .row{
+	display: flex;
+}
+
+.form .col1{
+	flex: 100%; 
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.form .col2{
+	flex: 50%; 
+	padding-left: 1px;
+}
+
 .updateform{
 	border: 3px solid grey;
 }
@@ -400,6 +423,7 @@ body {
 
 .configform{
 	border: 3px solid #408080;
+	max-width: 500px;
 }
 
 .configform .header{
@@ -425,10 +449,10 @@ body {
   	background-color: #3366aa; 
 }
 
-.form label {
+.form .label {
 	font-size: 14px;
 	color: #616161;
-	margin-top: 10px;
+	nmargin-top: 10px;
 	white-space: nowrap;
 }
  

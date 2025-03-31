@@ -4,14 +4,14 @@
 		<title>Config VRS-Replace</title>
 		<meta charset="UTF-8">
   		<meta name="htmx-config" content='{"selfRequestsOnly" : false}'>
-  		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
   		<link rel="stylesheet" href="main.css">
   		<script src="mainall.js"></script>
+  		
 	</head>
 
 	<body>
-	
 		<div 
 			hx-ext="form-template" 
 			id="form"
@@ -24,91 +24,192 @@
 					</div>
 					<div class="row">
 						<div class="col2">
-							<label for="ssid">SSID:</label>
+							<span class="label" for="ssid">SSID:</span>
 							<input type="text" id="ssid" name="ssid" />
+							<span id="ssid_info" class="validation-message"></span>
 			 			</div>
 						<div class="col2">
-							<label for="password">Passwort:</label>
+						 	<span id="lblPassword" class="label" lang for="password">Passwort:</span>
 							<input type="password" id="password" name="password" />
+							<span id="password_info" class="validation-message"></span>
 						</div>
 					</div>
 					 
 					<div class="row">					 
-						<div class="col1">
-							<label for="ntpserver">NTP Server:</label>
+						<div class="col2">
+							<span class="label" for="ntpserver">NTP&nbsp;Server:</span>
 							<input type="text" id="ntpserver" name="ntpserver" />
+							<span id="ntpserver_info" class="validation-message"></span>
+						</div>
+						<div class="col2">
+						 	<span id="lblTimezone" class="label" lang for="timezone">Zeitzone:</span>
+							<select id="timezone" name="timezone">
+								<option value="CET-1CEST,M3.5.0,M10.5.0/3">Europe/Amsterdam</option>
+								<option value="1;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Andorra</option> 	
+								<option value="2;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option> 	
+								<option value="3;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Belgrade</option>
+								<option value="4;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Berlin</option>
+								<option value="5;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Bratislava</option>
+								<option value="6;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Brussels</option>
+								<option value="7;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Bucharest</option>
+								<option value="8;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Budapest</option>
+								<option value="9;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Chisinau</option>
+								<option value="10;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Copenhagen</option>
+								<option value="11;GMT0IST,M3.5.0/1,M10.5.0">Europe/Dublin</option>
+								<option value="12;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Gibraltar</option>
+								<option value="13;GMT0BST,M3.5.0/1,M10.5.0">Europe/Guernsey</option>
+								<option value="14;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Helsinki</option>
+								<option value="15;GMT0BST,M3.5.0/1,M10.5.0">Europe/Isle of Man</option>
+								<option value="16;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Istanbul</option>
+								<option value="17;GMT0BST,M3.5.0/1,M10.5.0">Europe/Jersey</option>
+								<option value="18;EET-2EEST,M3.5.0,M10.5.0/3">Europe/Kaliningrad</option>
+								<option value="19;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Kiev</option>
+								<option value="20;WET0WEST,M3.5.0/1,M10.5.0">Europe/Lisbon</option>
+								<option value="21;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Ljubljana</option>
+								<option value="22;GMT0BST,M3.5.0/1,M10.5.0">Europe/London</option>
+								<option value="23;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Luxembourg</option>
+								<option value="24;CET-1CEST,M3.5.0,M10.5.0/3">urope/Madrid</option>
+								<option value="25;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Malta</option>
+								<option value="26;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Mariehamn</option>
+								<option value="27;EET-2EEST,M3.5.0,M10.5.0/3">Europe/Minsk</option>
+								<option value="28;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Monaco</option>
+								<option value="29;MSK-4">Europe/Moscow</option>
+								<option value="30;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Oslo</option>
+								<option value="31;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Paris</option>
+								<option value="32;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Podgorica</option>
+								<option value="33;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Prague</option>
+								<option value="34;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Riga</option>
+								<option value="35;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Rome</option>
+								<option value="36;SAMT-3SAMST,M3.5.0,M10.5.0/3">Europe/Samara</option>
+								<option value="37;CET-1CEST,M3.5.0,M10.5.0/3">Europe/San Marino</option>
+								<option value="38;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Sarajevo</option>
+								<option value="39;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Simferopol</option>
+								<option value="40;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Skopje</option>
+								<option value="41;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Sofia</option>
+								<option value="42;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Stockholm</option>
+								<option value="43;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Tallinn</option>
+								<option value="44;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Tirane</option>
+								<option value="45;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Uzhgorod</option>
+								<option value="46;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Vaduz</option>
+								<option value="47;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Vatican</option>
+								<option value="48;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Vienna</option>
+								<option value="49;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Vilnius</option>
+								<option value="50;VOLT-3VOLST,M3.5.0,M10.5.0/3">Europe/Volgograd</option> 	
+								<option value="51;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Warsaw</option>
+								<option value="52;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Zagreb</option>
+								<option value="53;EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Zaporozhye</option>
+								<option value="54;CET-1CEST,M3.5.0,M10.5.0/3">Europe/Zurich</option> 
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col2">
+						 	<span id="lblLanguage" class="label" lang for="language">Sprache:</span>
+							<input type="text" id="language" name="language" />
+							<span id="language_info" class="validation-message"   ></span>
 						</div>
 
 					</div>
 					
 					<div class="row">
 						<div class="col2">
-							<label for="wificonnectionretries">Verbindungsversuche:</label>
-							<input type="text" id="wificonnectionretries" name="wificonnectionretries" />
+							<span id="lblWificonnectionretries" class="label" lang for="wificonnectionretries">Verbindungsversuche:</span>
+							<input type="text" id="wificonnectionretries" name="wificonnectionretries" onkeypress="onlyNumbers(event);" />
+							<span id="wificonnectionretries_info" class="validation-message"   ></span>
 	 					</div>
 						<div class="col2">
-							<label for="wifireconnectinterval">Wartezeit(ms):</label>
-							<input type="text" id="wifireconnectinterval" name="wifireconnectinterval" />
+							<span id="lblWifireconnectinterval" class="label" lang for="wifireconnectinterval">Wartezeit(ms):</span>
+							<input type="text" id="wifireconnectinterval" name="wifireconnectinterval" onkeypress="onlyNumbers(event);" />
+							<span id="wifireconnectinterval_info" class="validation-message"   ></span>
 						</div>
 					</div>
+					<div class="row" style="border-bottom: 2px solid #408080; padding-top:5px"></div>
+					<div class="row">					 
+						<div class="col1">
+							<label for="mqttactive" class="checkbox-label"><input type="checkbox" id="mqttactive" name="mqttactive">
+								<span id="lblMQTTActive" class="label" lang>MQTT&nbsp;aktiv?</span>
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col2">
+							<span class="label" for="mqttserver">MQTT-Server:</span>
+							<input type="text" id="mqttserver" name="mqttserver" />
+							<span id="mqttserver_info" class="validation-message"></span>
+	 					</div>
+						<div class="col2">
+							<span class="label" for="mqttsendinterval">MQTT-Send&nbsp;intervall(ms):</span>
+							<input type="text" id="mqttsendinterval" name="mqttsendinterval" onkeypress="onlyNumbers(event);" />
+							<span id="mqttsendinterval_info" class="validation-message"></span>
+						</div>
+					</div>
+					
+					
+					
 					<div class="row" style="border-bottom: 2px solid #408080; padding-top:5px">
 					</div>
 					<div class="row">
 						<div class="col2">
-							<label for="temperatureswt">Small log write(ms):</label>
-							<input type="text" id="temperatureswt" name="temperatureswt" />
+							<span class="label" for="temperatureswt">Small&nbsp;log&nbsp;write(ms):</span>
+							<input type="text" id="temperatureswt" name="temperatureswt" onkeypress="onlyNumbers(event);" />
+							<span id="temperatureswt_info" class="validation-message"   ></span>
 	 					</div>
 						<div class="col2">
-							<label for="temperaturelwt">Large log write(ms):</label>
-							<input type="text" id="temperaturelwt" name="temperaturelwt" />
+							<span class="label" for="temperaturelwt">Large&nbsp;log&nbsp;write(ms):</span>
+							<input type="text" id="temperaturelwt" name="temperaturelwt" onkeypress="onlyNumbers(event);" />
+							<span id="temperaturelwt_info" class="validation-message"   ></span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col2">
-							<label for="temperaturesrt">Sensors Refresh(ms):</label>
-							<input type="text" id="temperaturesrt" name="temperaturesrt" />
+							<span class="label" for="temperaturesrt">Sensors&nbsp;Refresh(ms):</span>
+							<input type="text" id="temperaturesrt" name="temperaturesrt" onkeypress="onlyNumbers(event);" />
+							<span id="temperaturesrt_info" class="validation-message"   ></span>
 						</div>
 						<div class="col2">
-							<label for="maxtemperature">Max Temperature(&#x2103;):</label>
-							<input type="text" id="maxtemperature" name="maxtemperature" />
+							<span id="lblMaxTemperature" class="label" lang for="maxtemperature">Maximale&nbsp;Temperatur(&#x2103;):</span>
+							<input type="text" id="maxtemperature" name="maxtemperature" onkeypress="onlyNumbers(event);" />
+							<span id="maxtemperature_info" class="validation-message" ></span>
 						</div>
 	 				</div>
-
-					
 					<div class="row">					 
-							<div class="col1">
-							<label for="logpath">Logpath:</label>
+						<div class="col1">
+							<span class="label" for="logpath">Logpath:</span>
 							<input type="text" id="logpath" name="logpath" disabled="disabled" />
 						</div>
 					</div>
 					<div class="row">					 
 						<div class="col1">
-							<label for="webserverpath">Webserverpath:</label>
+							<span class="label" for="webserverpath">Webserverpath:</span>
 							<input type="text" id="webserverpath" name="webserverpath" disabled="disabled"  />
 						</div>
 					</div>	
-					<div class="row">					 
+					<div class="row">
 						<div class="col1">
-							<label for="lutpath">Lutpath:</label>
+							<span class="label" for="lutpath">Lutpath:</span>
 							<input type="text" id="lutpath" name="lutpath" disabled="disabled"  />
 						</div>
-					</div>		
+					</div>
+					
 					<div class="row">					 
 						<div class="col1">
-							<label for="allowcors" class="checkbox-label"><input type="checkbox" id="allowcors" name="allowcors">CORS zulassen</label>
+							<label for="allowcors" class="checkbox-label"><input type="checkbox" id="allowcors" name="allowcors">
+								<span id="lblAllowCORS" class="label" lang>CORS&nbsp;zulassen</span>
+							</label>
+							<label for="deliverfromsd" class="checkbox-label"><input type="checkbox" id="deliverfromsd" name="deliverfromsd">
+								<span id="lblHTMLFromSD" class="label" lang>HTML&nbsp;von&nbsp;SD</span>
+							</label>
 						</div>
-					</div>
-																	
+					</div>																			
 		 			<div class="row">					 
-						<div class="col1">
-							<button class="button" onclick="handleWrite();">Speichern</button>
-		 				</div>
-		 			
 		 				<div class="col1">
-		 					<button type="button" class="button" onclick="handleReboot();">Neustart</button>
+		 					<button id="btnSave" type="button" class="button" onclick="handleWrite();" lang>Speichern</button>
 		 				</div>
 		 				<div class="col1">
-		 					<button type="button" class="button" onclick="handleBack();" >Zurück</button>
+		 					<button id="btnRestart" type="button" class="button" onclick="handleReboot();" lang>Neustart</button>
+		 				</div>
+		 				<div class="col1">
+		 					<button id="btnBack" type="button" class="button" onclick="handleBack();" lang >Zur&uuml;ck</button>
 		 				</div>
 		 			</div>
 				</div>
@@ -117,9 +218,7 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		
 		document.body.addEventListener('htmx:configRequest', function(event) {
-    		event.detail.headers = '';
     		event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
     		event.detail.headers['Referer'] = "no-referrer";
     		htmx.config.withCredentials = false;
@@ -129,10 +228,16 @@
 		    modalBox.setModal(true, "INIT", "System", "Einstellungen konnten nicht geladen werden");
 			modalBox.showBox();
 		});
+		var lang = GetURLParameter("lang");
+		lang = setLanguage(lang);
+		initLogTranslate(lang);
+		
+		document.addEventListener("DOMContentLoaded", changeForm);
+		document.getElementById("mqttactive").addEventListener("change", changeForm);
  
 		function callback(event, type){
 			if(event == "CLOSE" && type == "RESTART"){
-				window.open("/", "_self");
+				window.open("index.html", "_self");
 			}
 		}
 		
@@ -143,9 +248,14 @@
 		
 		function handleWrite(){
 			event.preventDefault();
-			var json = configForm.getJSON();
-			htmx.ajax('GET', '/changeconfig?config='+json, {target:'#form', swap:'none', handler:doSave});
-		}
+			if(configForm.checkForm()){
+				htmx.ajax('POST', '/changeconfig', {
+					source: event.currentTarget,
+					swap: 'none',
+					handler: doSave
+				});
+			};
+ 		}
 		
 		function doSave(target, data) {
  			var text = data.xhr.responseText;
@@ -161,29 +271,42 @@
 			}
 		}
 		
-		
 		function doForm(target, data) {
  			var text = data.xhr.responseText;
  			var rc = JSON.parse(text);
 			if(rc.status !=2 && null!=text){
 				configForm.setJSON(rc);
 				configForm.refreshForm();
+				changeForm();
 			}else{
-				modalBox.setModal(true, "INIT", "System", "Einstellungen konnten nicht geladen werden");
+				var logmessage = getLogMessageByCode(rc.code);
+				modalBox.setModal(true, "INIT", "System", logmessage.getMessage());
 				modalBox.showBox();
 			}
   		};
+  		
+  		 
+		function changeForm(){
+			var mqttactive = document.getElementById("mqttactive").checked;
+			if(mqttactive){
+				document.getElementById("mqttserver").removeAttribute("disabled");
+				document.getElementById("mqttsendinterval").removeAttribute("disabled");
+			}else{
+				document.getElementById("mqttserver").setAttribute("disabled","");
+				document.getElementById("mqttsendinterval").setAttribute("disabled","");
+			}
+		} 
 		
   		
   		function handleBack() {
 			event.preventDefault();
-			window.open("/", "_self");
+			window.open("index.html", "_self");
 		}
   		
   		function handleReboot(){
-  			htmx.ajax('GET', '/system?reboot', {target:'#form', swap:'none'});
-			modalBox.setModal(false, "RESTART", "System", "System wird neugestartet");
-  			modalBox.showBox();
+  			htmx.ajax('GET', '/system?reboot', {target:'#form', swap:'none', handler: doSave});
+			//modalBox.setModal(false, "RESTART", "System", "System wird neugestartet");
+  			//modalBox.showBox();
   		}
  
 	</script>

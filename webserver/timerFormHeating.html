@@ -4,13 +4,14 @@
 		<title>Steuerung Warmwasser</title>
 		<meta charset="UTF-8">
 		<meta name="htmx-config" content='{"selfRequestsOnly" : false}'>
-		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link id=​"favicon" rel="shortcut icon" type="image/​png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AYht+min8VBzuoOGSoThbEijhKFYtgobQVWnUwufQPmjQkKS6OgmvBwZ/FqoOLs64OroIg+APi7OCk6CIlfpcUWsR4x3EP733vy913gFAvM9XsmARUzTKSsaiYya6KXa/owTD6aEYkZurx1GIanuPrHj6+34V5lnfdn6NfyZkM8InEc0w3LOIN4plNS+e8TxxkRUkhPieeMOiCxI9cl11+41xwWOCZQSOdnCcOEouFNpbbmBUNlXiaOKSoGuULGZcVzluc1XKVNe/JXxjIaSsprtMaRQxLiCMBETKqKKEMC2HaNVJMJOk86uEfcfwJcsnkKoGRYwEVqJAcP/gf/O6tmY9MuUmBKND5YtsfY0DXLtCo2fb3sW03TgD/M3CltfyVOjD7SXqtpYWOgIFt4OK6pcl7wOUOMPSkS4bkSH5aQj4PvJ/RN2WBwVugd83tW/Mcpw9Amnq1fAMcHALjBcpe93h3d3vf/q1p9u8Hn6tyuUIjGvUAAAAGYktHRABhAGIAaFUrE6YAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfoCRkNAgQrQXzjAAADCElEQVRYw9WX20tUURSHv7Epx4dqtDoMDVFBWYRaVAT9AdbQS0GlBF2epMIhghiJ9LUIjaIYq3lRH3ywCLo8RJc/IDDoHpVGIIJFOHasyLzkr4dzmotzHJ1b0X45m33W2d/vrL323mvBP26u2RpGKxqLkQKCaqQtiHKkhUhIDCP1IHUjHiLdW/Lh3GheBEQrG71ACHFEUhkSCKynUKwfH0MMSYogNRt9582sBUQrm2pBrYhFik8+E5wE2yhS0Oi/0JWRgMGqJrcLwkiHp0yYCTzRNuKSgsbAxYkZBUSrmtzADaSdeYJbfbjlkvYaHy8liShycEC4AHCQdkkKp/WAveZdBYAnju3zfQ53pQiwo/19DgE3GzhIUcQq32CrOXUJGv4CHMQipFCSB6IVjcXAQAb7PAXuaQ4wZ5nB95qOdHB7TEMusdT35cpokW0cyAWOxMTLPko2r2P+7TqYTAsHUSYpEFsC+3jNye3jHa8xz3biqSpn/p26dPA/Y9XxGLDO9pzXfDzyHLO5E8/6NSy4XZcGLosZF0B5vgJuLPwUs6UTz8a1MRFymA9pNYDb/nihE9xzNoB7pW/au0IOvT/t16BJydb1TF4/xLc9HQ7LgTdRgPOfZwF2/iAFHpvfbb8ftryQbDwSupvNPmfe8U14Gvbz49Fzvu1ud4ZLZmIQ9uTpkGHusY14Q/sZefKGrzuuTgcH0ZsooDsv8OAGShsO8PPZW74GrqSDW8yEXfAwZ3hdBaUnD/LzxTuGt1+eCY7gQVzApO7ZaVRWcCTclcsZefyK4erWmeHSENL9pNvw84oTp5FOZQOfZp+nsz3jH2trTL4NpRY7hys0PAq0pGRERt95E6m+wHBA9f6xNtMxJTP6L1yTiBQMLkX8Y+3X0uaELikI3CwA/BYQnMpLEWAMXJxwSTVIkXz+Obj2+sfbJzIqTD4ZwVpkFSbZB5zqp7o9o9Ls0+J6L1JI0hFE2SzhQ4irQEtiwOVUnH4sPVqMtB2xzUpgtFrCG7tYRC9St7CKU/9o2yj/Q/sNQ8RNka5MvQUAAAAASUVORK5CYII=">
   		<link rel="stylesheet" href="main.css">
   		<script src="mainall.js"></script>
 	</head>
 
 	<body>
+
 		<div 
 			hx-ext="form-template" 
 			id="form"
@@ -20,68 +21,93 @@
 				<div class="form heatform">
 					<div class="header heatformheader">
 						 <div class="icon_heating icon"></div>
-						 <div class="timertext">Warmwasser</div>
+						 <div class="timertext" id="header">
+						 	<span id="lblHeatingHeader" lang >Warmwasser</span>
+						 </div>
 					</div>
 					<div>
-						<label for="bez">Name:</label>
+						<span class="label" for="bez">Name:</span>
 						<input type="text" id="bez" name="bez" />
+						<span id="bez_info" class="validation-message" ></span>
 		 			</div>
 					
 					
 					<div>
-						<label for="timer_program">Zeiten:</label>
+						<span id="lblHeatingTimerProgram" class="label" lang for="timer_program">Zeiten:</span>
 						<select id="timer_program" name="timer_program">
-							<option value="1">Täglich</option>
-							<option value="2">Wochentags</option>
-							<option value="3">Manuell</option>
+							<option id="optDaily" value="1" lang>Täglich</option>
+							<option id="optWeekdays" value="2" lang>Wochentags</option>
+							<option id="optManually" value="3" lang>Manuell</option>
 						</select>
 					</div>
 					<div style="display:flex;flex-flow:column;" id="weekdays">
 					 	 <div>
-							<label for="d0" class="checkbox-label"><input type="checkbox" id="d0" name="d0">MO</label>
-							<label for="d1"  class="checkbox-label"><input type="checkbox" id="d1" name="d1">DI</label>
-							<label for="d2"  class="checkbox-label"><input type="checkbox" id="d2" name="d2">MI</label>
-							<label for="d3"  class="checkbox-label"><input type="checkbox" id="d3" name="d3">DO</label>
-							<label for="d4"  class="checkbox-label"><input type="checkbox" id="d4" name="d4">FR</label>
-							<label for="d5"  class="checkbox-label"><input type="checkbox" id="d5" name="d5">SA</label>
-							<label for="d6"  class="checkbox-label"><input type="checkbox" id="d6" name="d6">SO</label>
+							<label for="d0" class="checkbox-label"><input type="checkbox" id="d0" name="d0">
+								<span id="cbMo" lang>MO</span>
+							</label>
+							<label for="d1" class="checkbox-label"><input type="checkbox" id="d1" name="d1">
+								<span id="cbTu" lang>DI</span>
+							</label>
+							<label for="d2" class="checkbox-label"><input type="checkbox" id="d2" name="d2">								
+								<span id="cbWe" lang>MI</span>
+							</label>
+							<label for="d3" class="checkbox-label"><input type="checkbox" id="d3" name="d3">								
+								<span id="cbTh" lang>DO</span>
+							</label>
+							<label for="d4" class="checkbox-label"><input type="checkbox" id="d4" name="d4">								
+								<span id="cbFr" lang>FR</span>
+							</label>
+							<label for="d5" class="checkbox-label"><input type="checkbox" id="d5" name="d5">								
+								<span id="cbSa" lang>SA</span>
+							</label>
+							<label for="d6" class="checkbox-label"><input type="checkbox" id="d6" name="d6">								
+								<span id="cbSo" lang>SO</span>
+							</label>
 						 </div>
+						 <span id="weekdays_info" class="validation-message" ></span>
 				 	</div>
 					<div>
-						<label for="time_on">Einschaltzeit:</label>
+						<span id="lblHeatingSwitchOnTime" class="label" lang for="time_on">Einschaltzeit:</span>
 						<input type="time" id="time_on" name="time_on" />
+						<span id="time_on_info" class="validation-message" ></span>
 					</div>
 					<div>
-						<label for="time_off">Ausschaltzeit:</label>
+						<span id="lblHeatingSwitchOffTime" class="label" lang for="time_off">Ausschaltzeit:</span>
 						<input type="time" id="time_off" name="time_off" />
+						<span id="time_off_info" class="validation-message" ></span>
 					</div>
 		 
 		 			<div>
-						<label for="temperature_off">Auschalttemperatur:</label>
-						<input type="text" id="temperature_off" name="temperature_off" />
+						<span id="lblHeatingSwitchOffTemperature" class="label" lang for="temperature_off">Auschalttemperatur&nbsp;(&#8451):</span>
+						<input type="text" id="temperature_off" name="temperature_off" onkeypress="onlyNumbers(event);" />
+						<span id="temperature_off_info" class="validation-message" ></span>
 		 			</div>
 		 			<div>
-						<label for="hysteresis">Hysterese:</label>
-						<input type="text" id="hysteresis" name="hysteresis" />
+						<span id="lblHeatingHysteresis" class="label" lang for="hysteresis">Hysterese&nbsp;(&#8451):</span>
+						<input type="text" id="hysteresis" name="hysteresis" onkeypress="onlyNumbers(event);" />
+						<span id="hysteresis_info" class="validation-message" ></span>
+						
 					</div>
 					<div>
-						<label for="tempsensor">Temperatur Sensor:</label>
+						<span id="lblHeatingTempSensor" class="label" lang for="tempsensor">Temperatur&nbsp;Sensor:</span>
 						<select id="tempsensor" name="tempsensor">
 							<option value="1">SP1</option>
 							<option value="2">SP2</option>
-							<option value="3">Mittelwert</option>
+							<option id="optAverage" value="3" lang>Mittelwert</option>
 						</select>
 					</div>
 					<div style="display: flex;  flex-flow: column; ">
 					 	 <div>
-							<label for="active" class="checkbox-label"><input type="checkbox" id="active" name="active">Aktiv</label>
+							<label for="active" class="checkbox-label"><input type="checkbox" id="active" name="active">
+								<span id="cbActive" class="label" lang>Aktiv</span>
+							</label>
 						</div>
 					</div>
 			 		<div>
-			 			<button class="button" onclick="handleWrite();">Speichern</button>
+			 			<button id="btnSave" class="button" onclick="handleWrite();" lang>Speichern</button>
 			 		</div>
 			 		<div>
-			 			<button class="button"  onclick="handleBack();">Zurück</button>
+			 			<button id="btnBack" class="button"  onclick="handleBack();" lang>Zur&uuml;ck</button>
 			 		</div>
 				 
 				</div>
@@ -89,6 +115,10 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+	
+		var headerMessageBox ="Timer"; 
+	
+		
 		document.body.addEventListener('htmx:configRequest', function(event) {
 	    	event.detail.headers = '';
 	    	event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8";
@@ -97,17 +127,20 @@
 	    	htmx.config.selfRequestsOnly = false;
 		});
 		document.body.addEventListener('htmx:sendError', function (evt) {
-		    modalBox.setModal(true, "INIT", "Timer - Warmwasser", "Timer konnte nicht geladen werden");
+		    modalBox.setModal(true, "INIT", headerMessageBox, "Timer konnte nicht geladen werden");
 			modalBox.showBox();
 		});
 		
+		var lang = GetURLParameter("lang");
+		lang = setLanguage(lang);
+		initLogTranslate(lang);
+		headerMessageBox = headerMessageBox + " - "+(document.getElementById("header").getElementsByTagName("span")[0].innerHTML);
+		
 		document.addEventListener("DOMContentLoaded", changeFormFromTimerProgram);
 		document.getElementById("timer_program").addEventListener("change", changeFormFromTimerProgram);
+ 
 		
-		function callback(event, type){
-		}
-		
-		initLogTranslate();
+		function callback(event, type){}
 		var modalBox = new ModalBox("modal", callback);
 		var relaisForm = new RelaisForm("dform",1);
 		var id = GetURLParameter("id");
@@ -119,25 +152,28 @@
 		
 		function handleWrite(){
 			event.preventDefault();
-			var json = relaisForm.getJSON();
-			htmx.ajax('GET', '/timerchange?timer='+json, {target:'#form', swap:'none', handler:doSave});
+			if(relaisForm.checkForm()){
+				var json = relaisForm.getJSON();
+				htmx.ajax('GET', '/timerchange?timer='+json, {target:'#form', swap:'none', handler:doSave});
+			};
 		}
 		
 		function doSave(target, data) {
  			var text = data.xhr.responseText;
 			if(null!=text){
-				var rc = JSON.parse(text);
+				var rc = JSON.parse(text)
+				var message = buildLogTextByCode(rc);
 				if(rc.id!=-1){
-					var message = buildLogTextByCode(rc);
 					if(rc.status==2){
-						modalBox.setModal(true, "SAVE", "Timer - Warmwasser", message);
+						modalBox.setModal(true, "SAVE", headerMessageBox, message);
 					}else{
-						modalBox.setModal(false, "SAVE", "Timer - Warmwasser", message);
+						modalBox.setModal(false, "SAVE", headerMessageBox, message);
 					}
 					modalBox.showBox();
 					relaisForm.setId(rc.id);
 				}else{
-					modalBox.setModal(true, "SAVE", "Timer - Warmwasser", "Timer konnte nicht gespeichert werden!");
+					modalBox.setModal(true, "SAVE", headerMessageBox, message);
+					modalBox.showBox();
 				}
 			}
 		}
@@ -152,7 +188,7 @@
 	    		changeFormFromTimerProgram();
  			}else{
 				var logmessage = getLogMessageByCode(rc.code);
-				modalBox.setModal(true, "INIT", "Timer - Warmwasser", logmessage.getMessage());
+				modalBox.setModal(true, "INIT", headerMessageBox, logmessage.getMessage());
 				modalBox.showBox();
 			}
   		};
@@ -171,11 +207,13 @@
 				document.getElementById("time_off").setAttribute("disabled","");
 				document.getElementById("hysteresis").setAttribute("disabled","");
 			}
+			
 		}
 
 		function handleBack() {
 			event.preventDefault();
-			window.open("/", "_self");		}
+			window.open("index.html", "_self");
+		}
 	</script>
 	
 	
