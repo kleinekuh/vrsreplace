@@ -105,9 +105,9 @@ Since November 2024 in use
 
 ## Future:
 - Ethernet Interface
-- ~~ Homekit integration ~~ Removed. Should be possible over MQTT solution like openhab, ...
-- ~~ MQTT ~~ Added 0.9.8
-- ~~ Multilanguage with different timezones (actually you have to change the HTML & JS Code) ~~ Added 0.9.8 en/de
+- ~~Homekit integration~~ Removed. Should be possible over MQTT solution like openhab, ...
+- ~~MQTT~~ Added 0.9.8
+- ~~Multilanguage with different timezones (actually you have to change the HTML & JS Code)~~ Added 0.9.8 en/de
 - User/Pass
 - HTTP/S
 - Dynamic timer programs
@@ -116,7 +116,7 @@ Since November 2024 in use
 - Changing the whole development environment
 - I am not really happy with the WebFrontend. It works and the performance is Ok, but sometimes a more fancier FE would be nice.
 - Changing the js charts lib. Especially the line chart is not easy to handle.
-- ~~ Add validation rules on the input elements. ~~ Added 0.9.8
+- ~~Add validation rules on the input elements.~~ Added 0.9.8
 - Support for circulation pump. Actually there is no installed in our house.
 - Solar yield calculation
 - Adding a working mDNS solution. Until now add the given IP to your router.
