@@ -3,16 +3,16 @@ This „simple“ project (circuit & software) is a replacement for my old Vaill
 
 ![main index html](/doc/readme_md_1.png)
 
-## !Warning / Disclaimer!
-The circuit makes use of high voltage (240V). If you are not firm what this mean, don't do that and ask somebody for help.
-
-The whole system is designed running behind your own firewall. On January 2025 there is no security layer or any auth mechanism implemented. Anybody with access to your network/system is able changing timer-programs or uploading new firmware.
-
-If you use this project inside an apartment building keep in mind that the DSGVO could be relevant.
-
-I spend a lot of time measuring right „ADC to Resistor“ values before i got the information that the actual used temperature sensors (VR10/11) are susceptible by environmental influences. The heating engineers at the time (year 2008) forgot using a shielded cable. This is really funny if the sensor cables placed near to a high voltage once.
-
-I am not responsible for any damages or a correct working.
+> [!CAUTION]
+> The circuit makes use of high voltage (240V). If you are not firm what this mean, don't do that and ask somebody for help.
+>
+>  The whole system is designed running behind your own firewall. On January 2025 there is no security layer or any auth mechanism implemented. Anybody with access to your network/system is able changing timer-programs or uploading new firmware.
+>
+> If you use this project inside an apartment building keep in mind that the DSGVO could be relevant.
+>
+> I spend a lot of time measuring right „ADC to Resistor“ values before i got the information that the actual used temperature sensors (VR10/11) are susceptible by environmental influences. The heating engineers at the time (year 2008) forgot using a shielded cable. This is really funny if the sensor cables placed near to a high voltage once.
+>
+> I am not responsible for any damages or a correct working.
 
 ## Why this project?
 * Usage from my iPad
